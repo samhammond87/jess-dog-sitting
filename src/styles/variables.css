@@ -26,7 +26,7 @@
   --color-text-muted: var(--color-warm-gray);
   
   /* Typography */
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: 'Lora', Georgia, serif;
   --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Font Sizes - Fluid Typography */
