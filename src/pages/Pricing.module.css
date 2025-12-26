@@ -1,0 +1,319 @@
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
+  padding: var(--space-4xl) 0;
+  text-align: center;
+}
+
+.title {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-md);
+}
+
+.subtitle {
+  font-size: var(--text-xl);
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Pricing Section */
+.pricingSection {
+  background-color: var(--color-background);
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  align-items: stretch;
+}
+
+.pricingCard {
+  position: relative;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: var(--space-2xl);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  animation: fadeInUp 0.6s ease forwards;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.pricingCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.pricingCard.popular {
+  border: 3px solid var(--color-primary);
+  transform: scale(1.05);
+}
+
+.pricingCard.popular:hover {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.popularBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-full);
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.serviceIcon {
+  font-size: 3rem;
+}
+
+.serviceImage {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+.tierName {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.priceWrapper {
+  margin-bottom: var(--space-md);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.tierDescription {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-xl);
+  line-height: 1.6;
+}
+
+.featureList {
+  flex: 1;
+  text-align: left;
+  margin-bottom: var(--space-xl);
+}
+
+.featureList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.checkmark {
+  color: var(--color-forest);
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.pricingCard .btn {
+  width: 100%;
+}
+
+/* Add-Ons Section */
+.addOnsSection {
+  background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
+  padding: var(--space-4xl) 0;
+}
+
+.addOnsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.addOnItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+}
+
+.addOnName {
+  color: var(--color-white);
+  font-size: var(--text-sm);
+}
+
+.addOnPrice {
+  color: var(--color-sand);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+/* Terms Section */
+.termsSection {
+  background-color: var(--color-background);
+}
+
+.termsContent {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.termsTitle {
+  font-size: var(--text-3xl);
+  text-align: center;
+  margin-bottom: var(--space-2xl);
+  color: var(--color-primary);
+}
+
+.termsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+}
+
+.termsCard {
+  background-color: var(--color-surface);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.termsCard h3 {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.termsCard ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.termsCard li {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  padding-left: var(--space-md);
+  position: relative;
+}
+
+.termsCard li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+}
+
+.termsCard li strong {
+  color: var(--color-text);
+}
+
+.termsFooter {
+  margin-top: var(--space-2xl);
+  text-align: center;
+  padding: var(--space-xl);
+  background-color: var(--color-sand);
+  border-radius: var(--radius-lg);
+}
+
+.termsFooter p {
+  color: var(--color-text);
+  font-size: var(--text-base);
+}
+
+.termsFooter a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.termsFooter a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* CTA Section */
+.ctaSection {
+  background: linear-gradient(135deg, var(--color-terracotta), var(--color-terracotta-dark));
+  padding: var(--space-3xl) 0;
+  text-align: center;
+}
+
+.ctaContent h2 {
+  font-size: var(--text-2xl);
+  color: var(--color-white);
+  margin-bottom: var(--space-sm);
+}
+
+.ctaContent p {
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--space-lg);
+}
+
+.ctaSection .btn-primary {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+.ctaSection .btn-primary:hover {
+  background-color: var(--color-cream);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pricingGrid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .pricingCard.popular {
+    transform: none;
+    order: -1;
+  }
+
+  .pricingCard.popular:hover {
+    transform: translateY(-4px);
+  }
+
+  .addOnsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .termsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .addOnsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
