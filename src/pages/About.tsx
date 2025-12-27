@@ -80,18 +80,28 @@ function About() {
             <div className={styles.bioText}>
               <h2 className={styles.bioTitle}>My Story</h2>
               <p>{bio}</p>
-              <p>
-                I started dog sitting as a way to spend more time with furry friends, 
-                and it quickly became my passion. Now, I've turned that love into a 
-                full-time commitment to keeping your four-legged family members happy, 
-                healthy, and entertained while you're away.
-              </p>
-              <p>
-                When your dog stays with me, they're not just getting a sitter — 
-                they're getting a friend who genuinely cares. From long walks and 
-                exciting playtime to cozy naps and endless belly rubs, your pup will 
-                experience all the love and attention they deserve.
-              </p>
+              {aboutContent?.extendedBio && aboutContent.extendedBio.length > 0 ? (
+                aboutContent.extendedBio.map((block) => (
+                  <p key={block._key}>
+                    {block.children?.map((child) => child.text).join('')}
+                  </p>
+                ))
+              ) : (
+                <>
+                  <p>
+                    I started dog sitting as a way to spend more time with furry friends, 
+                    and it quickly became my passion. Now, I've turned that love into a 
+                    full-time commitment to keeping your four-legged family members happy, 
+                    healthy, and entertained while you're away.
+                  </p>
+                  <p>
+                    When your dog stays with me, they're not just getting a sitter — 
+                    they're getting a friend who genuinely cares. From long walks and 
+                    exciting playtime to cozy naps and endless belly rubs, your pup will 
+                    experience all the love and attention they deserve.
+                  </p>
+                </>
+              )}
             </div>
             <div className={styles.bioImage}>
               {aboutContent?.images && aboutContent.images.length > 0 ? (
