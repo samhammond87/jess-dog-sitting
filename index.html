@@ -9,6 +9,16 @@
     <title>Jess Dog Sitting | Your Pup's Home Away From Home</title>
   </head>
   <body>
+    <!-- Hidden form for Netlify form detection (React renders the actual form) -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="dogName" />
+      <select name="service"></select>
+      <textarea name="message"></textarea>
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
