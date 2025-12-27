@@ -27,3 +27,6 @@ npm-debug.log*
 jess-sits/node_modules
 jess-sits/.sanity
 jess-sits/dist
+
+# Local Netlify folder
+.netlify
