@@ -42,12 +42,18 @@ A modern, responsive website for a dog sitting service built with React, TypeScr
 
 ## Sanity CMS Setup
 
-1. Create a new Sanity project:
+The Sanity Studio is located in the `jess-sits/` directory.
+
+1. Install Sanity dependencies:
    ```bash
-   npm create sanity@latest
+   cd jess-sits
+   npm install
    ```
 
-2. Copy the schema files from `/sanity/schemas/` to your Sanity project.
+2. Start the Sanity Studio locally:
+   ```bash
+   npm run dev
+   ```
 
 3. Update your Sanity project ID in `.env`:
    ```
@@ -57,7 +63,7 @@ A modern, responsive website for a dog sitting service built with React, TypeScr
 
 4. Deploy the Sanity Studio:
    ```bash
-   cd sanity
+   cd jess-sits
    npx sanity deploy
    ```
 
@@ -106,8 +112,8 @@ jess-dog-sitting/
 │   ├── App.tsx            # Main app with routing
 │   ├── main.tsx           # Entry point
 │   └── index.css          # Global styles
-├── sanity/                # Sanity schema definitions
-│   └── schemas/
+├── jess-sits/             # Sanity Studio
+│   └── schemaTypes/       # Sanity schema definitions
 ├── public/
 ├── netlify.toml           # Netlify configuration
 └── package.json

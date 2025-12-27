@@ -23,6 +23,7 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Sanity
-sanity/node_modules
-sanity/.sanity
+# Sanity Studio
+jess-sits/node_modules
+jess-sits/.sanity
+jess-sits/dist

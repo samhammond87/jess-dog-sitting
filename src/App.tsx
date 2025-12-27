@@ -7,6 +7,7 @@ import Services from './pages/Services';
 import Pricing from './pages/Pricing';
 import Testimonials from './pages/Testimonials';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />

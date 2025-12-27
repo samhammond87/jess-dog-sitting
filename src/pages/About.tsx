@@ -21,7 +21,6 @@ const fallbackGallery = [
 
 function About() {
   const [aboutContent, setAboutContent] = useState<AboutContent | null>(null);
-  const [, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchAbout() {
@@ -30,8 +29,6 @@ function About() {
         setAboutContent(data);
       } catch (error) {
         console.error('Error fetching about content:', error);
-      } finally {
-        setLoading(false);
       }
     }
     fetchAbout();
