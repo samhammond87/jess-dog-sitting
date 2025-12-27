@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getTestimonials, urlFor, type Testimonial } from '../lib/sanity';
 import styles from './Testimonials.module.css';
 
@@ -130,9 +131,9 @@ function Testimonials() {
             <p className={styles.ctaSubtitle}>
               Join our growing family of satisfied pet parents!
             </p>
-            <a href="/contact" className="btn btn-primary">
+            <Link to="/contact" className="btn btn-primary">
               Book Your First Stay
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -1,8 +1,28 @@
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
+import { getSiteSettings, type SiteSettings } from '../lib/sanity';
 import styles from './Contact.module.css';
 
 function Contact() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const data = await getSiteSettings();
+        setSettings(data);
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    }
+    fetchSettings();
+  }, []);
+
+  const email = settings?.email || 'hello@jessdogsitting.com';
+  const phone = settings?.phone || '(123) 456-7890';
+  const location = settings?.location || 'Your Local Area & Surroundings';
+  const instagram = settings?.socialLinks?.instagram || 'https://instagram.com';
+  const facebook = settings?.socialLinks?.facebook || 'https://facebook.com';
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,7 +84,7 @@ function Contact() {
                   name="contact" 
                   method="POST" 
                   data-netlify="true"
-                  netlify-honeypot="bot-field"
+                  data-netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   className={styles.form}
                 >
@@ -183,7 +203,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📧</span>
                   <div>
                     <strong>Email</strong>
-                    <a href="mailto:hello@jessdogsitting.com">hello@jessdogsitting.com</a>
+                    <a href={`mailto:${email}`}>{email}</a>
                   </div>
                 </div>
 
@@ -191,7 +211,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📞</span>
                   <div>
                     <strong>Phone</strong>
-                    <a href="tel:+1234567890">(123) 456-7890</a>
+                    <a href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</a>
                   </div>
                 </div>
 
@@ -199,7 +219,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📍</span>
                   <div>
                     <strong>Service Area</strong>
-                    <span>Your Local Area & Surroundings</span>
+                    <span>{location}</span>
                   </div>
                 </div>
 
@@ -217,7 +237,7 @@ function Contact() {
                 <p>See daily adventures and happy pups on social media.</p>
                 <div className={styles.socialLinks}>
                   <a 
-                    href="https://instagram.com" 
+                    href={instagram}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={styles.socialLink}
@@ -225,7 +245,7 @@ function Contact() {
                     📸 Instagram
                   </a>
                   <a 
-                    href="https://facebook.com" 
+                    href={facebook}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={styles.socialLink}
@@ -259,4 +279,3 @@ function Contact() {
 }
 
 export default Contact;
-

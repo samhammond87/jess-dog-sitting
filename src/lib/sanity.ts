@@ -1,9 +1,12 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id';
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
 const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
 
+if (!projectId) {
+  throw new Error('VITE_SANITY_PROJECT_ID environment variable is required');
+}
 
 export const client = createClient({
   projectId,
@@ -12,11 +15,9 @@ export const client = createClient({
   apiVersion: '2024-01-01',
 });
 
-// Use the client-based image builder (more reliable)
 const builder = imageUrlBuilder(client);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function urlFor(source: any) {
+export function urlFor(source: SanityImage) {
   return builder.image(source);
 }
 
@@ -52,7 +53,11 @@ export interface Service {
 export interface AboutContent {
   _id: string;
   bio: string;
-  extendedBio?: unknown[];
+  extendedBio?: Array<{
+    _key: string;
+    _type: string;
+    children?: Array<{ _key: string; _type: string; text: string }>;
+  }>;
   profileImage?: SanityImage;
   images?: SanityImage[];
   highlights?: string[];
