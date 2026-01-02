@@ -231,6 +231,7 @@ function Contact() {
                       type="text" 
                       id="name" 
                       name="name" 
+                      autoComplete="name"
                       className={`form-input ${touched.name && errors.name ? styles.inputError : ''}`}
                       value={formData.name}
                       onChange={handleChange}
@@ -244,13 +245,21 @@ function Contact() {
                     )}
                   </div>
 
-                  <div className={styles.formRow}>
+                  <fieldset className={styles.contactFieldset}>
+                    <legend className={styles.contactLegend}>
+                      How can we reach you? <span className={styles.requiredHint}>*</span>
+                    </legend>
+                    <p className={`${styles.contactHint} ${errors.contact ? styles.contactHintError : ''}`}>
+                      {errors.contact || 'Please provide email or phone'}
+                    </p>
+                    
                     <div className={`form-group ${touched.email && errors.email ? styles.hasError : ''}`}>
                       <label htmlFor="email" className="form-label">Email Address</label>
                       <input 
                         type="email" 
                         id="email" 
                         name="email" 
+                        autoComplete="email"
                         className={`form-input ${(touched.email && errors.email) || errors.contact ? styles.inputError : ''}`}
                         value={formData.email}
                         onChange={handleChange}
@@ -263,12 +272,14 @@ function Contact() {
                         <span id="email-error" className={styles.fieldError}>{errors.email}</span>
                       )}
                     </div>
+
                     <div className={`form-group ${touched.phone && errors.phone ? styles.hasError : ''}`}>
                       <label htmlFor="phone" className="form-label">Phone Number</label>
                       <input 
                         type="tel" 
                         id="phone" 
                         name="phone" 
+                        autoComplete="tel"
                         className={`form-input ${(touched.phone && errors.phone) || errors.contact ? styles.inputError : ''}`}
                         value={formData.phone}
                         onChange={handleChange}
@@ -281,10 +292,7 @@ function Contact() {
                         <span id="phone-error" className={styles.fieldError}>{errors.phone}</span>
                       )}
                     </div>
-                  </div>
-                  <p className={`${styles.contactHint} ${errors.contact ? styles.contactHintError : ''}`}>
-                    {errors.contact || 'Please provide at least one'}
-                  </p>
+                  </fieldset>
 
                   <div className="form-group">
                     <label htmlFor="service" className="form-label">Service Interested In</label>
@@ -307,31 +315,30 @@ function Contact() {
                     </select>
                   </div>
 
-                  <div className={styles.formRow}>
-                    <div className="form-group">
-                      <label htmlFor="dogName" className="form-label">Dog's Name</label>
-                      <input 
-                        type="text" 
-                        id="dogName" 
-                        name="dogName" 
-                        className="form-input"
-                        value={formData.dogName}
-                        onChange={handleChange}
-                        disabled={formState === 'submitting'}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="message" className="form-label">Anything else?</label>
-                      <textarea 
-                        id="message" 
-                        name="message" 
-                        className="form-textarea"
-                        placeholder="Special needs, dates, questions..."
-                        value={formData.message}
-                        onChange={handleChange}
-                        disabled={formState === 'submitting'}
-                      />
-                    </div>
+                  <div className="form-group">
+                    <label htmlFor="dogName" className="form-label">Dog's Name</label>
+                    <input 
+                      type="text" 
+                      id="dogName" 
+                      name="dogName" 
+                      className="form-input"
+                      value={formData.dogName}
+                      onChange={handleChange}
+                      disabled={formState === 'submitting'}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="message" className="form-label">Anything else we should know?</label>
+                    <textarea 
+                      id="message" 
+                      name="message" 
+                      className="form-textarea"
+                      placeholder="Special needs, preferred dates, questions..."
+                      value={formData.message}
+                      onChange={handleChange}
+                      disabled={formState === 'submitting'}
+                    />
                   </div>
 
                   {formState === 'error' && (
@@ -345,7 +352,7 @@ function Contact() {
                     className="btn btn-primary"
                     disabled={formState === 'submitting'}
                   >
-                    {formState === 'submitting' ? 'Sending...' : 'Send Message'}
+                    {formState === 'submitting' ? 'Sending...' : 'Request a Callback'}
                   </button>
                 </form>
               )}
