@@ -1,0 +1,327 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getServices, getTermsPolicies, urlFor, hasValidAsset } from '../lib/sanity';
+
+const [services, terms] = await Promise.all([
+  getServices(),
+  getTermsPolicies(),
+]);
+
+const addOns = [
+  { name: 'Extended Walk (60 min)', price: '+$15' },
+  { name: 'Additional Pet (same household)', price: '+$10/day' },
+  { name: 'Bath & Brush', price: '+$25' },
+  { name: 'Holiday Rate', price: '+50%' },
+  { name: 'Last-Minute Booking (<24hrs)', price: '+$15' },
+  { name: 'Puppy Care (under 1 year)', price: '+$10/day' },
+];
+---
+
+<Layout title="Pricing & Terms" description="Transparent pricing with no hidden fees for dog sitting services">
+  <div class="pricing-page">
+    <section class="hero">
+      <div class="container">
+        <h1>Pricing & Terms</h1>
+        <p class="subtitle">Transparent pricing with no hidden fees. Your pup deserves the best!</p>
+      </div>
+    </section>
+
+    <section class="section pricing-section">
+      <div class="container">
+        <h2 class="section-title">Service Rates</h2>
+        <p class="section-subtitle">All prices are for one dog. Multi-pet discounts available!</p>
+        
+        <div class="pricing-grid">
+          {services.map((service, index) => (
+            <div 
+              class={`pricing-card ${index === 0 ? 'popular' : ''}`}
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              {index === 0 && <span class="popular-badge">Most Popular</span>}
+              <div class="card-header">
+                {hasValidAsset(service.image) ? (
+                  <img src={urlFor(service.image).width(80).height(80).url()} alt={service.title} class="service-image" />
+                ) : (
+                  <span class="service-icon">{service.icon || '🐕'}</span>
+                )}
+                <h3>{service.title}</h3>
+              </div>
+              {service.price && <div class="price">{service.price}</div>}
+              <p class="description">{service.description}</p>
+              {service.features && (
+                <ul class="features">
+                  {service.features.map((feature) => (
+                    <li><span class="checkmark">✓</span> {feature}</li>
+                  ))}
+                </ul>
+              )}
+              <a href="/contact" class="btn btn-primary">Book Now</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="addons-section">
+      <div class="container">
+        <h2 class="section-title" style="color: var(--color-white)">Add-Ons & Extras</h2>
+        <div class="addons-grid">
+          {addOns.map((addon) => (
+            <div class="addon-item">
+              <span class="addon-name">{addon.name}</span>
+              <span class="addon-price">{addon.price}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section terms-section">
+      <div class="container">
+        <h2 class="terms-title">Terms & Conditions</h2>
+        <div class="terms-grid">
+          {terms.map((policy) => (
+            <div class="terms-card">
+              <h3>{policy.icon || '📋'} {policy.title}</h3>
+              {policy.items && (
+                <ul>
+                  {policy.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+        <div class="terms-footer">
+          <p>By booking my services, you agree to these terms. Questions? <a href="/contact">Get in touch</a>!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Ready to Book?</h2>
+          <p>Let's schedule that meet & greet!</p>
+          <a href="/contact" class="btn btn-primary">Contact Me</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
+    padding: var(--space-4xl) 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+  }
+
+  .pricing-section {
+    background-color: var(--color-background);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .pricing-card {
+    position: relative;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .pricing-card.popular {
+    border: 2px solid var(--color-primary);
+  }
+
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .service-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .service-image {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    margin: 0 auto var(--space-sm);
+  }
+
+  .price {
+    text-align: center;
+    font-size: var(--text-2xl);
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .description {
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    flex-grow: 1;
+  }
+
+  .features {
+    margin-bottom: var(--space-xl);
+  }
+
+  .features li {
+    padding: var(--space-sm) 0;
+    color: var(--color-text-muted);
+  }
+
+  .checkmark {
+    color: var(--color-secondary);
+    margin-right: var(--space-sm);
+  }
+
+  .addons-section {
+    background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
+    padding: var(--space-4xl) 0;
+  }
+
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .addon-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-lg);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--color-white);
+  }
+
+  .addon-price {
+    font-weight: 600;
+    color: var(--color-sand);
+  }
+
+  .terms-section {
+    background: var(--color-surface);
+  }
+
+  .terms-title {
+    text-align: center;
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .terms-card {
+    padding: var(--space-xl);
+    background: var(--color-cream);
+    border-radius: var(--radius-lg);
+  }
+
+  .terms-card h3 {
+    margin-bottom: var(--space-md);
+  }
+
+  .terms-card ul {
+    list-style: disc;
+    padding-left: var(--space-lg);
+  }
+
+  .terms-card li {
+    padding: var(--space-xs) 0;
+    color: var(--color-text-muted);
+  }
+
+  .terms-footer {
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  .terms-footer a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-terracotta), var(--color-terracotta-dark));
+    padding: var(--space-4xl) 0;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    color: var(--color-white);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-xl);
+  }
+
+  .cta-section .btn-primary {
+    background: var(--color-white);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 1024px) {
+    .pricing-grid, .terms-grid {
+      grid-template-columns: 1fr;
+    }
+    .addons-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .addons-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
