@@ -53,12 +53,6 @@
   gap: var(--space-md);
 }
 
-.formRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-lg);
-}
-
 .hidden {
   display: none;
 }
@@ -80,14 +74,10 @@
   color: var(--color-error);
 }
 
-.contactHint {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-md);
-}
-
 .contactHintError {
+  font-size: var(--text-sm);
   color: var(--color-error);
+  margin: 0 0 var(--space-md);
 }
 
 .successMessage {
@@ -277,11 +267,6 @@
 }
 
 @media (max-width: 768px) {
-  .formRow {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
   .socialLinks {
     flex-direction: column;
   }

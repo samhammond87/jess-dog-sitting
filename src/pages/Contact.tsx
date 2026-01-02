@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent, type FocusEvent, type ChangeEvent } from 'react';
+import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
 import { getSiteSettings, type SiteSettings } from '../lib/sanity';
 import styles from './Contact.module.css';
 
@@ -27,39 +27,11 @@ const initialFormData: FormData = {
   message: '',
 };
 
-const validateName = (value: string): string | undefined => {
-  if (!value.trim()) return 'Name is required';
-  if (value.trim().length < 2) return 'Name must be at least 2 characters';
-  return undefined;
-};
-
-const validateEmail = (value: string): string | undefined => {
-  if (!value.trim()) return undefined;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(value)) return 'Please enter a valid email address';
-  return undefined;
-};
-
-const validatePhone = (value: string): string | undefined => {
-  if (!value.trim()) return undefined;
-  const phoneRegex = /^[\d\s\-()+ ]{7,}$/;
-  if (!phoneRegex.test(value)) return 'Please enter a valid phone number';
-  return undefined;
-};
-
-const validateContact = (email: string, phone: string): string | undefined => {
-  if (!email.trim() && !phone.trim()) {
-    return 'Please provide an email or phone number so we can reach you';
-  }
-  return undefined;
-};
-
 function Contact() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<FormErrors>({});
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     async function fetchSettings() {
@@ -73,70 +45,56 @@ function Contact() {
     fetchSettings();
   }, []);
 
-  const validateField = (name: keyof FormData, value: string): string | undefined => {
-    switch (name) {
-      case 'name': return validateName(value);
-      case 'email': return validateEmail(value);
-      case 'phone': return validatePhone(value);
-      default: return undefined;
+  const validateForm = (): FormErrors => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
     }
+
+    if (formData.email.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = 'Please enter a valid email address';
+      }
+    }
+
+    if (formData.phone.trim()) {
+      const phoneRegex = /^[\d\s\-()+ ]{7,}$/;
+      if (!phoneRegex.test(formData.phone)) {
+        newErrors.phone = 'Please enter a valid phone number';
+      }
+    }
+
+    if (!formData.email.trim() && !formData.phone.trim()) {
+      newErrors.contact = 'Please provide an email or phone number';
+    }
+
+    return newErrors;
   };
 
-  const validateAllFields = (): boolean => {
-    const newErrors: FormErrors = {};
-    let isValid = true;
-
-    (Object.keys(formData) as Array<keyof FormData>).forEach((field) => {
-      const error = validateField(field, formData[field]);
-      if (error) {
-        newErrors[field as keyof FormErrors] = error;
-        isValid = false;
+  const scrollToFirstError = (formErrors: FormErrors) => {
+    const errorFields = ['name', 'email', 'phone', 'contact'] as const;
+    for (const field of errorFields) {
+      if (formErrors[field]) {
+        const element = document.getElementById(field === 'contact' ? 'email' : field);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.focus();
+          break;
+        }
       }
-    });
-
-    const contactError = validateContact(formData.email, formData.phone);
-    if (contactError) {
-      newErrors.contact = contactError;
-      isValid = false;
     }
-
-    setErrors(newErrors);
-    setTouched({ name: true, email: true, phone: true });
-    return isValid;
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    const newFormData = { ...formData, [name]: value };
-    setFormData(newFormData);
+    setFormData((prev) => ({ ...prev, [name]: value }));
     
-    if (touched[name] && errors[name as keyof FormErrors]) {
-      const error = validateField(name as keyof FormData, value);
-      setErrors((prev) => ({ ...prev, [name]: error }));
-    }
-    
-    if ((name === 'email' || name === 'phone') && errors.contact) {
-      const contactError = validateContact(
-        name === 'email' ? value : newFormData.email,
-        name === 'phone' ? value : newFormData.phone
-      );
-      setErrors((prev) => ({ ...prev, contact: contactError }));
-    }
-  };
-
-  const handleBlur = (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setTouched((prev) => ({ ...prev, [name]: true }));
-    
-    const error = validateField(name as keyof FormData, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
-    
-    if (name === 'email' || name === 'phone') {
-      const contactError = validateContact(
-        name === 'email' ? value : formData.email,
-        name === 'phone' ? value : formData.phone
-      );
-      setErrors((prev) => ({ ...prev, contact: contactError }));
+    if (Object.keys(errors).length > 0) {
+      setErrors({});
     }
   };
 
@@ -149,8 +107,10 @@ function Contact() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    // Validate all fields before submitting
-    if (!validateAllFields()) {
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      scrollToFirstError(formErrors);
       return;
     }
     
@@ -170,7 +130,6 @@ function Contact() {
         setFormState('success');
         setFormData(initialFormData);
         setErrors({});
-        setTouched({});
       } else {
         setFormState('error');
       }
@@ -225,70 +184,67 @@ function Contact() {
                     </label>
                   </p>
 
-                  <div className={`form-group ${touched.name && errors.name ? styles.hasError : ''}`}>
+                  <div className={`form-group ${errors.name ? styles.hasError : ''}`}>
                     <label htmlFor="name" className="form-label">Your Name *</label>
                     <input 
                       type="text" 
                       id="name" 
                       name="name" 
                       autoComplete="name"
-                      className={`form-input ${touched.name && errors.name ? styles.inputError : ''}`}
+                      className={`form-input ${errors.name ? styles.inputError : ''}`}
                       value={formData.name}
                       onChange={handleChange}
-                      onBlur={handleBlur}
                       disabled={formState === 'submitting'}
-                      aria-invalid={touched.name && !!errors.name}
+                      aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'name-error' : undefined}
                     />
-                    {touched.name && errors.name && (
+                    {errors.name && (
                       <span id="name-error" className={styles.fieldError}>{errors.name}</span>
                     )}
                   </div>
 
-                  <fieldset className={styles.contactFieldset}>
+                  <fieldset className={`${styles.contactFieldset} ${errors.contact ? styles.hasError : ''}`}>
                     <legend className={styles.contactLegend}>
                       How can we reach you? <span className={styles.requiredHint}>*</span>
                     </legend>
-                    <p className={`${styles.contactHint} ${errors.contact ? styles.contactHintError : ''}`}>
-                      {errors.contact || 'Please provide email or phone'}
-                    </p>
+                    {errors.contact && (
+                      <p className={styles.contactHintError}>{errors.contact}</p>
+                    )}
                     
-                    <div className={`form-group ${touched.email && errors.email ? styles.hasError : ''}`}>
+                    <div className={`form-group ${errors.email ? styles.hasError : ''}`}>
                       <label htmlFor="email" className="form-label">Email Address</label>
                       <input 
                         type="email" 
                         id="email" 
                         name="email" 
                         autoComplete="email"
-                        className={`form-input ${(touched.email && errors.email) || errors.contact ? styles.inputError : ''}`}
+                        className={`form-input ${errors.email || errors.contact ? styles.inputError : ''}`}
                         value={formData.email}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                         disabled={formState === 'submitting'}
-                        aria-invalid={touched.email && !!errors.email}
+                        aria-invalid={!!errors.email}
                         aria-describedby={errors.email ? 'email-error' : undefined}
                       />
-                      {touched.email && errors.email && (
+                      {errors.email && (
                         <span id="email-error" className={styles.fieldError}>{errors.email}</span>
                       )}
                     </div>
 
-                    <div className={`form-group ${touched.phone && errors.phone ? styles.hasError : ''}`}>
+                    <div className={`form-group ${errors.phone ? styles.hasError : ''}`}>
                       <label htmlFor="phone" className="form-label">Phone Number</label>
                       <input 
                         type="tel" 
                         id="phone" 
                         name="phone" 
                         autoComplete="tel"
-                        className={`form-input ${(touched.phone && errors.phone) || errors.contact ? styles.inputError : ''}`}
+                        className={`form-input ${errors.phone || errors.contact ? styles.inputError : ''}`}
                         value={formData.phone}
                         onChange={handleChange}
-                        onBlur={handleBlur}
                         disabled={formState === 'submitting'}
-                        aria-invalid={touched.phone && !!errors.phone}
+                        aria-invalid={!!errors.phone}
                         aria-describedby={errors.phone ? 'phone-error' : undefined}
                       />
-                      {touched.phone && errors.phone && (
+                      {errors.phone && (
                         <span id="phone-error" className={styles.fieldError}>{errors.phone}</span>
                       )}
                     </div>
