@@ -63,6 +63,32 @@
   display: none;
 }
 
+/* Contact fields wrapper (email OR phone) */
+.contactFieldsWrapper {
+  background-color: var(--color-cream);
+  padding: var(--space-lg);
+  border-radius: var(--radius-lg);
+  margin: var(--space-sm) 0;
+}
+
+.contactFieldsLabel {
+  font-weight: 500;
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+}
+
+.requiredNote {
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.optionalNote {
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
 .successMessage {
   text-align: center;
   padding: var(--space-3xl);
@@ -90,6 +116,41 @@
   padding: var(--space-md);
   border-radius: var(--radius-md);
   text-align: center;
+}
+
+/* Field-level error styles */
+.hasError .form-label,
+.hasError label {
+  color: #dc2626;
+}
+
+.inputError {
+  border-color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+.inputError:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+}
+
+.fieldError {
+  display: block;
+  color: #dc2626;
+  font-size: var(--text-sm);
+  margin-top: var(--space-xs);
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .form .btn {
