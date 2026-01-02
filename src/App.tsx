@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -13,6 +14,7 @@ import './App.css';
 function App() {
   return (
     <div className="app">
+      <ScrollToTop />
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
