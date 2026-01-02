@@ -185,7 +185,7 @@ function Contact() {
                   </p>
 
                   <div className={`form-group ${errors.name ? styles.hasError : ''}`}>
-                    <label htmlFor="name" className="form-label">Your Name *</label>
+                    <label htmlFor="name" className="form-label">Your Name <span className={styles.requiredHint}>*</span></label>
                     <input 
                       type="text" 
                       id="name" 
