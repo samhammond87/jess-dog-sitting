@@ -140,11 +140,11 @@ function Contact() {
     }
   };
 
-  const email = settings?.email || 'hello@jessdogsitting.com';
-  const phone = settings?.phone || '(123) 456-7890';
-  const location = settings?.location || 'Your Local Area & Surroundings';
-  const instagram = settings?.socialLinks?.instagram || 'https://instagram.com';
-  const facebook = settings?.socialLinks?.facebook || 'https://facebook.com';
+  const businessEmail = settings?.email || 'hello@jessdogsitting.com';
+  const businessPhone = settings?.phone || '(123) 456-7890';
+  const serviceArea = settings?.location || 'Your Local Area & Surroundings';
+  const instagramUrl = settings?.socialLinks?.instagram || 'https://instagram.com';
+  const facebookUrl = settings?.socialLinks?.facebook || 'https://facebook.com';
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -171,7 +171,6 @@ function Contact() {
         setFormData(initialFormData);
         setErrors({});
         setTouched({});
-        form.reset();
       } else {
         setFormState('error');
       }
@@ -368,7 +367,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📧</span>
                   <div>
                     <strong>Email</strong>
-                    <a href={`mailto:${email}`}>{email}</a>
+                    <a href={`mailto:${businessEmail}`}>{businessEmail}</a>
                   </div>
                 </div>
 
@@ -376,7 +375,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📞</span>
                   <div>
                     <strong>Phone</strong>
-                    <a href={`tel:${phone.replace(/\D/g, '')}`}>{phone}</a>
+                    <a href={`tel:${businessPhone.replace(/\D/g, '')}`}>{businessPhone}</a>
                   </div>
                 </div>
 
@@ -384,7 +383,7 @@ function Contact() {
                   <span className={styles.infoIcon}>📍</span>
                   <div>
                     <strong>Service Area</strong>
-                    <span>{location}</span>
+                    <span>{serviceArea}</span>
                   </div>
                 </div>
 
@@ -402,7 +401,7 @@ function Contact() {
                 <p>See daily adventures and happy pups on social media.</p>
                 <div className={styles.socialLinks}>
                   <a 
-                    href={instagram}
+                    href={instagramUrl}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={styles.socialLink}
@@ -410,7 +409,7 @@ function Contact() {
                     📸 Instagram
                   </a>
                   <a 
-                    href={facebook}
+                    href={facebookUrl}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className={styles.socialLink}
