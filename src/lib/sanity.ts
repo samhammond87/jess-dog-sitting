@@ -1,11 +1,11 @@
 import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url';
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
-const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
+const projectId = import.meta.env.PUBLIC_SANITY_PROJECT_ID;
+const dataset = import.meta.env.PUBLIC_SANITY_DATASET || 'production';
 
 if (!projectId) {
-  throw new Error('VITE_SANITY_PROJECT_ID environment variable is required');
+  throw new Error('PUBLIC_SANITY_PROJECT_ID environment variable is required');
 }
 
 export const client = createClient({
@@ -15,27 +15,24 @@ export const client = createClient({
   apiVersion: '2024-01-01',
 });
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 
-export function urlFor(source: SanityImage) {
+export function urlFor(source: SanityImageSource) {
   return builder.image(source);
 }
 
-// Types for Sanity content
-export interface SanityImage {
-  _type: 'image';
-  asset: {
-    _ref: string;
-    _type: 'reference';
-  };
+export function hasValidAsset(image: unknown): image is SanityImageSource {
+  return typeof image === 'object' && image !== null && 'asset' in image;
 }
+
+export type { SanityImageSource };
 
 export interface Testimonial {
   _id: string;
   name: string;
   dogName: string;
   quote: string;
-  image?: SanityImage;
+  image?: SanityImageSource;
   rating?: number;
 }
 
@@ -44,7 +41,7 @@ export interface Service {
   title: string;
   description: string;
   price?: string;
-  image?: SanityImage;
+  image?: SanityImageSource;
   features?: string[];
   icon?: string;
   order?: number;
@@ -58,8 +55,10 @@ export interface AboutContent {
     _type: string;
     children?: Array<{ _key: string; _type: string; text: string }>;
   }>;
-  profileImage?: SanityImage;
-  images?: SanityImage[];
+  profileImage?: SanityImageSource;
+  profileImageLqip?: string;
+  images?: SanityImageSource[];
+  imagesLqip?: string[];
   highlights?: string[];
 }
 
@@ -70,7 +69,8 @@ export interface SiteSettings {
   phone?: string;
   location?: string;
   tagline?: string;
-  heroImage?: SanityImage;
+  heroImage?: SanityImageSource;
+  heroImageLqip?: string;
   socialLinks?: {
     instagram?: string;
     facebook?: string;
@@ -85,7 +85,6 @@ export interface TermsPolicy {
   order?: number;
 }
 
-// Query functions
 export async function getTestimonials(): Promise<Testimonial[]> {
   return client.fetch('*[_type == "testimonial"] | order(_createdAt desc)');
 }
@@ -95,13 +94,25 @@ export async function getServices(): Promise<Service[]> {
 }
 
 export async function getAboutContent(): Promise<AboutContent | null> {
-  return client.fetch('*[_type == "aboutContent"][0]');
+  return client.fetch(`
+    *[_type == "aboutContent"][0]{
+      ...,
+      "profileImageLqip": profileImage.asset->metadata.lqip,
+      "imagesLqip": images[].asset->metadata.lqip
+    }
+  `);
 }
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
-  return client.fetch('*[_type == "siteSettings"][0]');
+  return client.fetch(`
+    *[_type == "siteSettings"][0]{
+      ...,
+      "heroImageLqip": heroImage.asset->metadata.lqip
+    }
+  `);
 }
 
 export async function getTermsPolicies(): Promise<TermsPolicy[]> {
   return client.fetch('*[_type == "termsPolicy"] | order(order asc)');
 }
+

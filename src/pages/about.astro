@@ -1,0 +1,372 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoadingImage from '../components/LoadingImage';
+import { getAboutContent, urlFor, hasValidAsset } from '../lib/sanity';
+
+const aboutContent = await getAboutContent();
+
+const highlightIcons = ['🎓', '⏰', '🛡️', '❤️', '📱', '🏡'];
+const highlights = aboutContent?.highlights?.map((text, i) => ({
+  icon: highlightIcons[i] || '✨',
+  text,
+})) ?? [];
+
+const bio = aboutContent?.bio ?? '';
+
+const images = (aboutContent?.images ?? []).filter(hasValidAsset);
+
+const profileImageUrl = hasValidAsset(aboutContent?.profileImage)
+  ? urlFor(aboutContent.profileImage).width(200).height(200).url() 
+  : null;
+
+const bioImageUrl = images.length > 0
+  ? urlFor(images[0]).width(400).height(500).url() 
+  : null;
+---
+
+<Layout title="About Me" description="Learn about Jess and her passion for dog sitting">
+  <div class="about">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-image">
+            <LoadingImage
+              client:load
+              src={profileImageUrl}
+              alt="Jess"
+              lqip={aboutContent?.profileImageLqip}
+              size={200}
+            />
+          </div>
+          <div class="hero-text">
+            <h1 class="title">About Me</h1>
+            <p class="subtitle">
+              I'm Jess, and I'm pretty great — just ask WizzieBear!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bio-section">
+      <div class="container">
+        <div class="bio-content">
+          <div class="bio-text">
+            <h2 class="bio-title">My Story</h2>
+            <p>{bio}</p>
+            {aboutContent?.extendedBio?.map((block) => (
+              <p>
+                {block.children?.map((child) => child.text).join('')}
+              </p>
+            ))}
+          </div>
+          <div class="bio-image">
+            <LoadingImage
+              client:load
+              src={bioImageUrl}
+              alt="Jess with dogs"
+              lqip={aboutContent?.imagesLqip?.[0]}
+              aspectRatio="4/5"
+              rounded={false}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="highlights-section">
+      <div class="container">
+        <h2 class="section-title" style="color: var(--color-white);">
+          Why Choose Me?
+        </h2>
+        <div class="highlights-grid">
+          {highlights.map((highlight, index) => (
+            <div 
+              class="highlight-card"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <span class="highlight-icon">{highlight.icon}</span>
+              <span class="highlight-text">{highlight.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery-section">
+      <div class="container">
+        <h2 class="section-title">Happy Moments</h2>
+        <p class="section-subtitle">
+          A glimpse into the fun times I have with my furry clients!
+        </p>
+        <div class="gallery">
+          {images.map((image, index) => (
+            <div 
+              class="gallery-item"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <div class="gallery-image">
+                <img src={urlFor(image).width(300).height(300).url()} alt={`Happy moment ${index + 1}`} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section philosophy-section">
+      <div class="container">
+        <div class="philosophy-content">
+          <h2 class="philosophy-title">My Care Philosophy</h2>
+          <div class="philosophy-items">
+            <div class="philosophy-item">
+              <h3>🏠 Home Comfort</h3>
+              <p>
+                I believe dogs are happiest in familiar environments. That's why 
+                I prioritize in-home care, keeping your pup's routine as normal 
+                as possible.
+              </p>
+            </div>
+            <div class="philosophy-item">
+              <h3>📸 Constant Updates</h3>
+              <p>
+                Miss your furry friend? I send regular photos and updates so 
+                you always know how much fun they're having!
+              </p>
+            </div>
+            <div class="philosophy-item">
+              <h3>🎯 Personalized Care</h3>
+              <p>
+                Every dog is unique. I take time to understand your pup's 
+                personality, preferences, and needs to provide tailored care.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
+    padding: var(--space-4xl) 0;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .hero-image {
+    order: 1;
+  }
+
+  .hero-text {
+    order: 2;
+  }
+
+  .title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+  }
+
+  /* Bio Section */
+  .bio-section {
+    background-color: var(--color-background);
+  }
+
+  .bio-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    align-items: center;
+  }
+
+  .bio-title {
+    font-size: var(--text-3xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .bio-text p {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    margin-bottom: var(--space-lg);
+    color: var(--color-text-muted);
+  }
+
+  .bio-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Highlights Section */
+  .highlights-section {
+    background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
+    padding: var(--space-4xl) 0;
+  }
+
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .highlight-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .highlight-icon {
+    font-size: 2rem;
+  }
+
+  .highlight-text {
+    color: var(--color-white);
+    font-weight: 500;
+  }
+
+  /* Gallery Section */
+  .gallery-section {
+    background-color: var(--color-background);
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .gallery-item {
+    animation: scaleIn 0.4s ease forwards;
+  }
+
+  .gallery-image {
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--color-cream), var(--color-sand));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05) rotate(2deg);
+  }
+
+  .gallery-caption {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* Philosophy Section */
+  .philosophy-section {
+    background-color: var(--color-surface);
+  }
+
+  .philosophy-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .philosophy-title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2xl);
+    color: var(--color-primary);
+  }
+
+  .philosophy-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .philosophy-item {
+    text-align: center;
+    padding: var(--space-xl);
+  }
+
+  .philosophy-item h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .philosophy-item p {
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-image {
+      order: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .bio-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .bio-image {
+      order: -1;
+    }
+
+    .highlights-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .philosophy-items {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .highlights-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+

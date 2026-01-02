@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getTestimonials, urlFor, hasValidAsset } from '../lib/sanity';
+
+const testimonials = await getTestimonials();
+
+function renderStars(rating: number = 5) {
+  return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
+}
+---
+
+<Layout title="Testimonials" description="See what pet parents have to say about Jess Dog Sitting">
+  <div class="testimonials-page">
+    <section class="hero">
+      <div class="container">
+        <h1>Testimonials</h1>
+        <p class="subtitle">Dogs love me, just ask them! Here's what pet parents have to say.</p>
+        <div class="stats">
+          <div class="stat">
+            <span class="number">100+</span>
+            <span class="label">Happy Pups</span>
+          </div>
+          <div class="stat">
+            <span class="number">5.0</span>
+            <span class="label">Average Rating</span>
+          </div>
+          <div class="stat">
+            <span class="number">5+</span>
+            <span class="label">Years Experience</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="testimonials-grid">
+          {testimonials.map((testimonial, index) => (
+            <div 
+              class="card testimonial-card animate-fade-in-up"
+              style={`animation-delay: ${index * 100}ms`}
+            >
+              <div class="stars">{renderStars(testimonial.rating)}</div>
+              <blockquote>"{testimonial.quote}"</blockquote>
+              <div class="author">
+                <div class="avatar">
+                  {hasValidAsset(testimonial.image) ? (
+                    <img src={urlFor(testimonial.image).width(50).height(50).url()} alt={testimonial.dogName} />
+                  ) : '🐕'}
+                </div>
+                <div class="info">
+                  <strong>{testimonial.name}</strong>
+                  <span>& {testimonial.dogName}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Want Your Pup to Be This Happy?</h2>
+          <p>Join our growing family of satisfied pet parents!</p>
+          <a href="/contact" class="btn btn-primary">Book Your First Stay</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
+    padding: var(--space-4xl) 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xl);
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat .number {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+
+  .stat .label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .testimonials-section {
+    background-color: var(--color-background);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .testimonial-card {
+    padding: var(--space-2xl);
+  }
+
+  .stars {
+    color: #f59e0b;
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  blockquote {
+    font-size: var(--text-lg);
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xl);
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .info strong {
+    display: block;
+  }
+
+  .info span {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-terracotta), var(--color-terracotta-dark));
+    padding: var(--space-4xl) 0;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    color: var(--color-white);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-content p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: var(--space-xl);
+    font-size: var(--text-lg);
+  }
+
+  .cta-section .btn-primary {
+    background-color: var(--color-white);
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .stats {
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
