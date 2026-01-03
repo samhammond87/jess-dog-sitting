@@ -22,7 +22,6 @@ const {
 } = Astro.props;
 
 const siteName = settings?.siteName ?? 'Jess Dog Sitting';
-const location = settings?.location ?? '';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // Don't append site name on homepage (detected by URL path, not title content)
@@ -48,7 +47,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
-    <meta property="og:site_name" content="Jess Dog Sitting" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_AU" />
     
     <!-- Twitter -->
@@ -75,18 +74,13 @@ const ogImageURL = new URL(ogImage, Astro.site);
       "description": description,
       "url": Astro.site?.toString(),
       ...(settings?.phone ? { "telephone": settings.phone } : {}),
-      ...(location ? {
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": location,
-          "addressCountry": "AU"
-        },
-        "areaServed": location
-      } : {}),
-      "priceRange": "$$",
-      ...([settings?.socialLinks?.instagram, settings?.socialLinks?.facebook].filter(Boolean).length > 0 
-        ? { "sameAs": [settings?.socialLinks?.instagram, settings?.socialLinks?.facebook].filter(Boolean) } 
-        : {})
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sydney",
+        "addressCountry": "AU"
+      },
+      "areaServed": "Sydney",
+      "priceRange": "$$"
     })} />
   </head>
   <body>
@@ -98,4 +92,3 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <Footer />
   </body>
 </html>
-

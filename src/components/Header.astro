@@ -3,10 +3,9 @@ const currentPath = Astro.url.pathname;
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/about', label: 'About Me' },
-  { href: '/services', label: 'Dog Sitting' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/testimonials', label: 'Testimonials' },
+  { href: '/contact', label: 'Contact' },
 ];
 ---
 
@@ -37,10 +36,10 @@ const navLinks = [
         </a>
       ))}
       <a
-        href="/contact"
-        class:list={['nav-link', 'cta-button', { active: currentPath === '/contact' }]}
+        href="/bookings"
+        class:list={['nav-link', 'cta-button', { active: currentPath === '/bookings' }]}
       >
-        Contact
+        Book Now
       </a>
     </nav>
   </div>
@@ -56,7 +55,6 @@ const navLinks = [
     nav?.classList.remove('open');
     menuToggle?.classList.remove('active');
     menuToggle?.setAttribute('aria-expanded', 'false');
-    // Only hide from screen readers on mobile when closed
     if (mobileBreakpoint.matches) {
       nav?.setAttribute('aria-hidden', 'true');
     }
@@ -69,15 +67,12 @@ const navLinks = [
     menuToggle?.setAttribute('aria-expanded', 'true');
   }
 
-  // Handle viewport changes (mobile <-> desktop)
   function handleViewportChange(e: MediaQueryListEvent | MediaQueryList) {
     if (e.matches) {
-      // Switched to mobile: hide nav from screen readers if menu is closed
       if (!nav?.classList.contains('open')) {
         nav?.setAttribute('aria-hidden', 'true');
       }
     } else {
-      // Switched to desktop: always accessible, remove mobile state
       nav?.removeAttribute('aria-hidden');
       nav?.classList.remove('open');
       menuToggle?.classList.remove('active');
@@ -85,7 +80,6 @@ const navLinks = [
     }
   }
 
-  // Initialize based on current viewport
   handleViewportChange(mobileBreakpoint);
   mobileBreakpoint.addEventListener('change', handleViewportChange);
 
@@ -98,12 +92,10 @@ const navLinks = [
     }
   });
 
-  // Close menu on link click
   nav?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
 
-  // Close menu on Escape key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav?.classList.contains('open')) {
       closeMenu();
@@ -335,4 +327,3 @@ const navLinks = [
     }
   }
 </style>
-
