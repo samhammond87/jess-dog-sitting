@@ -31,20 +31,14 @@ function cx(...classes: (string | false | undefined)[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
-// Slugify question text for readable form field names
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 50); // Keep it reasonable length
-}
-
-// Generate a readable field name from question text (with short ID suffix for uniqueness)
+// Generate a readable field name from question text
 function getFieldName(q: BookingQuestion): string {
-  const slug = slugify(q.questionText);
-  const shortId = q._id.slice(0, 6); // First 6 chars of ID for uniqueness
-  return `${slug}-${shortId}`;
+  // Keep it readable - just clean up special chars, preserve spaces as hyphens
+  return q.questionText
+    .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special chars but keep spaces
+    .trim()
+    .replace(/\s+/g, ' ') // Normalize spaces
+    .slice(0, 60); // Keep it reasonable length
 }
 
 function BookingForm({ questions }: BookingFormProps) {
