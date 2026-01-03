@@ -27,39 +27,14 @@ export function hasValidAsset(image: unknown): image is SanityImageSource {
 
 export type { SanityImageSource };
 
-export interface Testimonial {
-  _id: string;
-  name: string;
-  dogName: string;
-  quote: string;
-  image?: SanityImageSource;
-  rating?: number;
-}
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
 
-export interface Service {
-  _id: string;
+export interface BookingStep {
+  _key: string;
   title: string;
-  description: string;
-  price?: string;
-  image?: SanityImageSource;
-  features?: string[];
-  icon?: string;
-  order?: number;
-}
-
-export interface AboutContent {
-  _id: string;
-  bio: string;
-  extendedBio?: Array<{
-    _key: string;
-    _type: string;
-    children?: Array<{ _key: string; _type: string; text: string }>;
-  }>;
-  profileImage?: SanityImageSource;
-  profileImageLqip?: string;
-  images?: SanityImageSource[];
-  imagesLqip?: string[];
-  highlights?: string[];
+  description?: string;
 }
 
 export interface SiteSettings {
@@ -67,14 +42,13 @@ export interface SiteSettings {
   siteName?: string;
   email: string;
   phone?: string;
-  location?: string;
   tagline?: string;
   heroImage?: SanityImageSource;
   heroImageLqip?: string;
-  socialLinks?: {
-    instagram?: string;
-    facebook?: string;
-  };
+  heroBlurb?: string;
+  bookingProcess?: BookingStep[];
+  acknowledgementOfCountry?: string;
+  abn?: string;
 }
 
 export interface TermsPolicy {
@@ -85,23 +59,36 @@ export interface TermsPolicy {
   order?: number;
 }
 
-export async function getTestimonials(): Promise<Testimonial[]> {
-  return client.fetch('*[_type == "testimonial"] | order(_createdAt desc)');
+export interface GalleryImage {
+  _id: string;
+  image: SanityImageSource;
+  imageLqip?: string;
+  caption?: string;
+  order?: number;
 }
 
-export async function getServices(): Promise<Service[]> {
-  return client.fetch('*[_type == "service"] | order(order asc)');
+export interface BookingQuestion {
+  _id: string;
+  questionText: string;
+  description?: string;
+  questionType: 'text' | 'textarea' | 'number' | 'checkbox' | 'radio' | 'checkboxes' | 'select';
+  options?: string[];
+  required: boolean;
+  group?: 'contact' | 'dog-info' | 'medical' | 'behavior' | 'care' | 'emergency' | 'other';
+  order: number;
 }
 
-export async function getAboutContent(): Promise<AboutContent | null> {
-  return client.fetch(`
-    *[_type == "aboutContent"][0]{
-      ...,
-      "profileImageLqip": profileImage.asset->metadata.lqip,
-      "imagesLqip": images[].asset->metadata.lqip
-    }
-  `);
+export interface ServiceType {
+  _id: string;
+  title: string;
+  description: string;
+  icon: string;
+  order?: number;
 }
+
+// ============================================
+// FETCH FUNCTIONS
+// ============================================
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
   return client.fetch(`
@@ -116,3 +103,22 @@ export async function getTermsPolicies(): Promise<TermsPolicy[]> {
   return client.fetch('*[_type == "termsPolicy"] | order(order asc)');
 }
 
+export async function getGalleryImages(): Promise<GalleryImage[]> {
+  return client.fetch(`
+    *[_type == "galleryImage"] | order(order asc) {
+      _id,
+      image,
+      "imageLqip": image.asset->metadata.lqip,
+      caption,
+      order
+    }
+  `);
+}
+
+export async function getBookingQuestions(): Promise<BookingQuestion[]> {
+  return client.fetch('*[_type == "bookingQuestion"] | order(order asc)');
+}
+
+export async function getServiceTypes(): Promise<ServiceType[]> {
+  return client.fetch('*[_type == "serviceType"] | order(order asc)');
+}
