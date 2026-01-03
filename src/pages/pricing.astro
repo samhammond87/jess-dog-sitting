@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import CtaSection from '../components/CtaSection.astro';
 import { getServices, getTermsPolicies, urlFor, hasValidAsset } from '../lib/sanity';
 
 const [services, terms] = await Promise.all([
@@ -19,12 +22,10 @@ const addOns = [
 
 <Layout title="Pricing & Terms" description="Transparent pricing with no hidden fees for dog sitting services">
   <div class="pricing-page">
-    <section class="hero">
-      <div class="container">
-        <h1>Pricing & Terms</h1>
-        <p class="subtitle">Transparent pricing with no hidden fees. Your pup deserves the best!</p>
-      </div>
-    </section>
+    <Hero 
+      title="Pricing & Terms" 
+      subtitle="Transparent pricing with no hidden fees. Your pup deserves the best!"
+    />
 
     <section class="section pricing-section">
       <div class="container">
@@ -99,35 +100,16 @@ const addOns = [
       </div>
     </section>
 
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2>Ready to Book?</h2>
-          <p>Let's schedule that meet & greet!</p>
-          <a href="/contact" class="btn btn-primary">Contact Me</a>
-        </div>
-      </div>
-    </section>
+    <CtaSection
+      title="Ready to Book?"
+      subtitle="Let's schedule that meet & greet!"
+      buttonText="Contact Me"
+      buttonHref="/contact"
+    />
   </div>
 </Layout>
 
 <style>
-  .hero {
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
-    padding: var(--space-4xl) 0;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-md);
-  }
-
-  .subtitle {
-    font-size: var(--text-xl);
-    color: var(--color-text-muted);
-  }
-
   .pricing-section {
     background-color: var(--color-background);
   }
@@ -285,28 +267,6 @@ const addOns = [
   .terms-footer a {
     color: var(--color-primary);
     text-decoration: underline;
-  }
-
-  .cta-section {
-    background: linear-gradient(135deg, var(--color-terracotta), var(--color-terracotta-dark));
-    padding: var(--space-4xl) 0;
-    text-align: center;
-  }
-
-  .cta-content h2 {
-    color: var(--color-white);
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-md);
-  }
-
-  .cta-content p {
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: var(--space-xl);
-  }
-
-  .cta-section .btn-primary {
-    background: var(--color-white);
-    color: var(--color-primary);
   }
 
   @media (max-width: 1024px) {

@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import ContactForm from '../components/ContactForm';
 import { getSiteSettings } from '../lib/sanity';
 
@@ -14,12 +15,10 @@ const facebookUrl = settings?.socialLinks?.facebook || 'https://facebook.com';
 
 <Layout title="Contact" description="Get in touch with Jess for dog sitting services">
   <div class="contact-page">
-    <section class="hero">
-      <div class="container">
-        <h1>Get in Touch</h1>
-        <p class="subtitle">Ready to give your pup the best care? Let's chat!</p>
-      </div>
-    </section>
+    <Hero 
+      title="Get in Touch" 
+      subtitle="Ready to give your pup the best care? Let's chat!"
+    />
 
     <section class="section contact-section">
       <div class="container">
@@ -103,22 +102,6 @@ const facebookUrl = settings?.socialLinks?.facebook || 'https://facebook.com';
 </Layout>
 
 <style>
-  .hero {
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
-    padding: var(--space-4xl) 0;
-    text-align: center;
-  }
-
-  .hero h1 {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-md);
-  }
-
-  .subtitle {
-    font-size: var(--text-xl);
-    color: var(--color-text-muted);
-  }
-
   .contact-section {
     background-color: var(--color-background);
   }

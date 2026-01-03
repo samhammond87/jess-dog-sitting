@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import LoadingImage from '../components/LoadingImage';
+import CtaSection from '../components/CtaSection.astro';
 import { getSiteSettings, getServices, getTestimonials, urlFor, hasValidAsset } from '../lib/sanity';
 
 const [settings, servicesData, testimonialsData] = await Promise.all([
@@ -19,9 +20,16 @@ const taglineHighlight = taglineWords.slice(2).join(' ');
 const heroImageUrl = hasValidAsset(settings?.heroImage)
   ? urlFor(settings.heroImage).width(400).height(400).url() 
   : null;
+
+const location = settings?.location ?? '';
+const siteName = settings?.siteName ?? 'Jess Dog Sitting';
+const homeTitle = location ? `Dog Sitting in ${location}` : siteName;
+const homeDescription = location 
+  ? `Professional dog sitting services in ${location}. Your pup's home away from home with love, care, and lots of belly rubs!`
+  : "Professional dog sitting services with love, care, and lots of belly rubs!";
 ---
 
-<Layout title="Home">
+<Layout title={homeTitle} description={homeDescription}>
   <div class="home">
     <section class="hero">
       <div class="hero-background">
@@ -171,19 +179,12 @@ const heroImageUrl = hasValidAsset(settings?.heroImage)
       </div>
     </section>
 
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2 class="cta-title">Ready for Your Pup's Best Stay?</h2>
-          <p class="cta-subtitle">
-            Let's chat about how I can help care for your furry family member!
-          </p>
-          <a href="/contact" class="btn btn-primary">
-            Get in Touch
-          </a>
-        </div>
-      </div>
-    </section>
+    <CtaSection
+      title="Ready for Your Pup's Best Stay?"
+      subtitle="Let's chat about how I can help care for your furry family member!"
+      buttonText="Get in Touch"
+      buttonHref="/contact"
+    />
   </div>
 </Layout>
 
@@ -478,39 +479,6 @@ const heroImageUrl = hasValidAsset(settings?.heroImage)
   .testimonial-author span {
     color: var(--color-text-muted);
     font-size: var(--text-sm);
-  }
-
-  /* CTA Section */
-  .cta-section {
-    padding: var(--space-4xl) 0;
-    background: linear-gradient(135deg, var(--color-terracotta), var(--color-terracotta-dark));
-    text-align: center;
-  }
-
-  .cta-content {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .cta-title {
-    font-size: var(--text-3xl);
-    color: var(--color-white);
-    margin-bottom: var(--space-md);
-  }
-
-  .cta-subtitle {
-    font-size: var(--text-lg);
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: var(--space-xl);
-  }
-
-  .cta-section .btn-primary {
-    background-color: var(--color-white);
-    color: var(--color-primary);
-  }
-
-  .cta-section .btn-primary:hover {
-    background-color: var(--color-cream);
   }
 
   /* Responsive */
