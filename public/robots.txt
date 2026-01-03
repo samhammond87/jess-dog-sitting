@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jess-dog-sitting.netlify.app/sitemap-index.xml
+

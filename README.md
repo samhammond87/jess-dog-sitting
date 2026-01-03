@@ -1,10 +1,10 @@
 # Jess Dog Sitting Website
 
-A modern, responsive website for a dog sitting service built with React, TypeScript, and Sanity CMS.
+A modern, responsive website for a dog sitting service built with Astro, TypeScript, and Sanity CMS.
 
 ## Tech Stack
 
-- **Frontend**: React + Vite + TypeScript
+- **Frontend**: Astro + TypeScript
 - **CMS**: Sanity.io
 - **Forms**: Netlify Forms (with email notifications)
 - **Hosting**: Netlify
@@ -30,10 +30,11 @@ A modern, responsive website for a dog sitting service built with React, TypeScr
    ```
 
 3. Set up environment variables:
-   ```bash
-   cp .env.example .env
+   Create a `.env` file with your Sanity credentials:
    ```
-   Then edit `.env` with your Sanity project credentials.
+   PUBLIC_SANITY_PROJECT_ID=your-project-id
+   PUBLIC_SANITY_DATASET=production
+   ```
 
 4. Start the development server:
    ```bash
@@ -55,13 +56,7 @@ The Sanity Studio is located in the `jess-sits/` directory.
    npm run dev
    ```
 
-3. Update your Sanity project ID in `.env`:
-   ```
-   VITE_SANITY_PROJECT_ID=your-actual-project-id
-   VITE_SANITY_DATASET=production
-   ```
-
-4. Deploy the Sanity Studio:
+3. Deploy the Sanity Studio:
    ```bash
    cd jess-sits
    npx sanity deploy
@@ -71,15 +66,15 @@ The Sanity Studio is located in the `jess-sits/` directory.
 
 ### Automatic Deployment
 
-1. Push your code to GitHub/GitLab
+1. Push your code to GitHub
 2. Connect your repository to Netlify
 3. Netlify will auto-detect the settings from `netlify.toml`
 
 ### Environment Variables
 
-Add these in Netlify dashboard (Site settings > Build & deploy > Environment):
-- `VITE_SANITY_PROJECT_ID` - Your Sanity project ID
-- `VITE_SANITY_DATASET` - Your Sanity dataset (usually "production")
+Add these in Netlify dashboard (Site settings > Environment variables):
+- `PUBLIC_SANITY_PROJECT_ID` - Your Sanity project ID
+- `PUBLIC_SANITY_DATASET` - Your Sanity dataset (usually "production")
 
 ### Email Notifications for Contact Form
 
@@ -87,7 +82,6 @@ Add these in Netlify dashboard (Site settings > Build & deploy > Environment):
 2. Navigate to **Forms** > **Form notifications**
 3. Click **Add notification** > **Email notification**
 4. Enter the email address where submissions should be sent
-5. Customize the notification template if desired
 
 ## Project Structure
 
@@ -95,27 +89,38 @@ Add these in Netlify dashboard (Site settings > Build & deploy > Environment):
 jess-dog-sitting/
 ├── src/
 │   ├── components/        # Reusable UI components
-│   │   ├── Header.tsx
-│   │   ├── Header.module.css
-│   │   ├── Footer.tsx
-│   │   └── Footer.module.css
-│   ├── pages/             # Page components
-│   │   ├── Home.tsx
-│   │   ├── About.tsx
-│   │   ├── Services.tsx
-│   │   ├── Testimonials.tsx
-│   │   └── Contact.tsx
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   ├── Hero.astro
+│   │   ├── Section.astro
+│   │   ├── Card.astro
+│   │   ├── ServiceCard.astro
+│   │   ├── TestimonialCard.astro
+│   │   ├── CtaSection.astro
+│   │   ├── ContactForm.tsx   # React (client-side interactivity)
+│   │   └── LoadingImage.tsx  # React (LQIP blur-up images)
+│   ├── layouts/
+│   │   └── Layout.astro      # Base layout with SEO meta tags
+│   ├── pages/                # File-based routing
+│   │   ├── index.astro
+│   │   ├── about.astro
+│   │   ├── services.astro
+│   │   ├── pricing.astro
+│   │   ├── testimonials.astro
+│   │   ├── contact.astro
+│   │   └── 404.astro
 │   ├── lib/
-│   │   └── sanity.ts      # Sanity client configuration
-│   ├── styles/
-│   │   └── variables.css  # CSS custom properties
-│   ├── App.tsx            # Main app with routing
-│   ├── main.tsx           # Entry point
-│   └── index.css          # Global styles
-├── jess-sits/             # Sanity Studio
-│   └── schemaTypes/       # Sanity schema definitions
+│   │   └── sanity.ts         # Sanity client & queries
+│   └── styles/
+│       ├── global.css
+│       └── variables.css
+├── jess-sits/                # Sanity Studio
+│   └── schemaTypes/          # Sanity schema definitions
 ├── public/
-├── netlify.toml           # Netlify configuration
+│   ├── fonts/
+│   └── robots.txt
+├── astro.config.mjs
+├── netlify.toml
 └── package.json
 ```
 
@@ -123,9 +128,11 @@ jess-dog-sitting/
 
 - 🏠 **Home**: Hero section, services preview, testimonials
 - 👋 **About**: Bio, photo gallery, credentials
-- 🐕 **Services**: Detailed service offerings with pricing
+- 🐕 **Services**: Detailed service offerings
+- 💰 **Pricing**: Service pricing and packages
 - ⭐ **Testimonials**: Customer reviews and ratings
 - 📧 **Contact**: Form with Netlify Forms integration
+- 🔍 **SEO**: Sitemap, Open Graph, JSON-LD structured data
 
 ## Customization
 
@@ -144,19 +151,11 @@ Edit `src/styles/variables.css` to customize the color scheme:
 
 ### Content
 
-Once Sanity is set up, all content can be managed through the Sanity Studio:
+All content is managed through the Sanity Studio:
 - Add/edit testimonials
 - Update services and pricing
 - Change about page content
-- Update contact information
-
-## Google Calendar Integration (Future)
-
-To add Google Calendar integration:
-
-1. Create a Google Cloud project and enable Calendar API
-2. Use Calendly or Cal.com embed for easy booking
-3. Or implement a custom solution with the Google Calendar API
+- Update contact information and social links
 
 ## License
 

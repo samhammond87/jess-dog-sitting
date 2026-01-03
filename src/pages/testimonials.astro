@@ -1,0 +1,93 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { getTestimonials } from '../lib/sanity';
+
+const testimonials = await getTestimonials();
+---
+
+<Layout title="Testimonials" description="See what pet parents have to say about Jess Dog Sitting">
+  <div class="testimonials-page">
+    <Hero title="Testimonials" subtitle="Dogs love me, just ask them! Here's what pet parents have to say.">
+      <div class="stats">
+        <div class="stat">
+          <span class="number">100+</span>
+          <span class="label">Happy Pups</span>
+        </div>
+        <div class="stat">
+          <span class="number">5.0</span>
+          <span class="label">Average Rating</span>
+        </div>
+        <div class="stat">
+          <span class="number">5+</span>
+          <span class="label">Years Experience</span>
+        </div>
+      </div>
+    </Hero>
+
+    <Section class="testimonials-section">
+      <div class="testimonials-grid">
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard 
+            testimonial={testimonial} 
+            showRating={true}
+            animationDelay={index * 100}
+          />
+        ))}
+      </div>
+    </Section>
+
+    <CtaSection
+      title="Want Your Pup to Be This Happy?"
+      subtitle="Join our growing family of satisfied pet parents!"
+      buttonText="Book Your First Stay"
+      buttonHref="/contact"
+    />
+  </div>
+</Layout>
+
+<style>
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3xl);
+    margin-top: var(--space-2xl);
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat .number {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+
+  .stat .label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-xl);
+  }
+
+  @media (max-width: 768px) {
+    .stats {
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { getServices } from '../lib/sanity';
+
+const services = await getServices();
+---
+
+<Layout title="Services" description="Professional dog sitting services tailored with love and attention">
+  <div class="services-page">
+    <Hero 
+      title="Dog Sitting Services" 
+      subtitle="They'll have the best time! Every service is tailored with love and attention."
+    />
+
+    <Section class="services-section">
+      <div class="services-grid">
+        {services.map((service, index) => (
+          <ServiceCard service={service} animationDelay={index * 100} />
+        ))}
+      </div>
+    </Section>
+
+    <section class="expect-section">
+      <div class="container">
+        <h2 class="section-title" style="color: var(--color-white)">What to Expect</h2>
+        <div class="expect-grid">
+          <div class="expect-card">
+            <span class="number">1</span>
+            <h3>Meet & Greet</h3>
+            <p>Free initial meeting to learn about your pup and discuss your needs.</p>
+          </div>
+          <div class="expect-card">
+            <span class="number">2</span>
+            <h3>Personalized Plan</h3>
+            <p>We create a care plan that fits your dog's routine and personality.</p>
+          </div>
+          <div class="expect-card">
+            <span class="number">3</span>
+            <h3>Care & Updates</h3>
+            <p>Your pup gets the best care while you receive photos and updates.</p>
+          </div>
+          <div class="expect-card">
+            <span class="number">4</span>
+            <h3>Happy Reunion</h3>
+            <p>Pick up a happy, tired pup who can't wait for their next visit!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CtaSection
+      title="Ready to Book?"
+      subtitle="Let's schedule a free meet & greet with your furry friend!"
+      buttonText="Get in Touch"
+      buttonHref="/contact"
+    />
+  </div>
+</Layout>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .expect-section {
+    background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
+    padding: var(--space-4xl) 0;
+  }
+
+  .expect-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .expect-card {
+    text-align: center;
+    color: var(--color-white);
+  }
+
+  .number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-terracotta);
+    font-size: var(--text-xl);
+    font-weight: bold;
+    margin-bottom: var(--space-md);
+  }
+
+  .expect-card h3 {
+    color: var(--color-white);
+    margin-bottom: var(--space-sm);
+  }
+
+  .expect-card p {
+    opacity: 0.9;
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 1024px) {
+    .expect-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .expect-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

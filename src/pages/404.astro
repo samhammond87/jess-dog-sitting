@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found" description="Oops! The page you're looking for doesn't exist." noindex={true}>
+  <div class="error-page">
+    <div class="container">
+      <div class="error-content">
+        <span class="error-icon">🐕</span>
+        <h1>Ruh-roh!</h1>
+        <p class="error-code">404</p>
+        <p class="error-message">
+          Looks like this pup wandered off! The page you're looking for doesn't exist.
+        </p>
+        <div class="error-actions">
+          <a href="/" class="btn btn-primary">Back to Home</a>
+          <a href="/contact" class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .error-page {
+    min-height: calc(100vh - var(--header-height) - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
+    padding: var(--space-4xl) 0;
+  }
+
+  .error-content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .error-icon {
+    font-size: 6rem;
+    display: block;
+    margin-bottom: var(--space-lg);
+    animation: wiggle 2s ease-in-out infinite;
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  h1 {
+    font-size: var(--text-4xl);
+    color: var(--color-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .error-code {
+    font-size: var(--text-2xl);
+    font-weight: bold;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .error-message {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2xl);
+    line-height: 1.7;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>
+
