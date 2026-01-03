@@ -7,6 +7,7 @@ const currentYear = new Date().getFullYear();
 const email = settings?.email || 'hello@jessdogsitting.com';
 const phone = settings?.phone || '';
 const siteName = settings?.siteName || 'Jess Dog Sitting';
+const tagline = settings?.tagline || "Your pup's home away from home";
 const acknowledgement = settings?.acknowledgementOfCountry || '';
 const abn = settings?.abn || '';
 ---
@@ -25,9 +26,7 @@ const abn = settings?.abn || '';
           <span class="logo-icon">🐕</span>
           <span class="logo-text">{siteName}</span>
         </a>
-        <p class="tagline">
-          Your pup's home away from home
-        </p>
+        <p class="tagline">{tagline}</p>
       </div>
 
       <div class="footer-links">
