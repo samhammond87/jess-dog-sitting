@@ -414,19 +414,32 @@ function BookingForm({ questions }: BookingFormProps) {
             {groupLabels[group] || group}
           </h3>
           
-          {groupQuestions.map((q) => (
-            <div key={q._id} className="booking-form__field">
-              <label htmlFor={`q_${q._id}`} className="booking-form__label">
-                {q.questionText}
-                {q.required && <span className="booking-form__required"> *</span>}
-              </label>
-              {q.description && <p className="booking-form__helper">{q.description}</p>}
-              {renderQuestion(q)}
-              {errors[`q_${q._id}`] && (
-                <span className="booking-form__error">{errors[`q_${q._id}`]}</span>
-              )}
-            </div>
-          ))}
+          {groupQuestions.map((q) => {
+            const fieldName = `q_${q._id}`;
+            const isGroupedInput = q.questionType === 'radio' || q.questionType === 'checkboxes';
+            
+            return (
+              <div key={q._id} className="booking-form__field">
+                {/* Use span for grouped inputs (no single target ID), label for others */}
+                {isGroupedInput ? (
+                  <span className="booking-form__label">
+                    {q.questionText}
+                    {q.required && <span className="booking-form__required"> *</span>}
+                  </span>
+                ) : (
+                  <label htmlFor={fieldName} className="booking-form__label">
+                    {q.questionText}
+                    {q.required && <span className="booking-form__required"> *</span>}
+                  </label>
+                )}
+                {q.description && <p className="booking-form__helper">{q.description}</p>}
+                {renderQuestion(q)}
+                {errors[fieldName] && (
+                  <span className="booking-form__error">{errors[fieldName]}</span>
+                )}
+              </div>
+            );
+          })}
         </div>
       ))}
 

@@ -69,7 +69,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": `${Astro.site?.toString()}#localbusiness`,
+      "@id": `${canonicalURL.origin}#localbusiness`,
       "name": siteName,
       "description": description,
       "url": canonicalURL.toString(),
