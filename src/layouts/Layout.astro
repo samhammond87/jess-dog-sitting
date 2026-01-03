@@ -2,13 +2,30 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import { getSiteSettings } from '../lib/sanity';
 
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, description = "Professional dog sitting services with love, care, and lots of belly rubs!" } = Astro.props;
+const settings = await getSiteSettings();
+
+const { 
+  title, 
+  description = "Professional dog sitting services with love, care, and lots of belly rubs!",
+  ogImage = "/favicon.svg"
+} = Astro.props;
+
+const siteName = settings?.siteName ?? 'Jess Dog Sitting';
+const location = settings?.location ?? '';
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+// If title already contains location info (homepage), don't append site name
+const isHomepage = title.toLowerCase().includes('dog sitting in') || title === siteName;
+const fullTitle = isHomepage ? title : `${title} | ${siteName}`;
+const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -17,14 +34,61 @@ const { title, description = "Professional dog sitting services with love, care,
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:site_name" content="Jess Dog Sitting" />
+    <meta property="og:locale" content="en_AU" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    
+    <!-- Preconnect to Sanity CDN for faster image loading -->
+    <link rel="preconnect" href="https://cdn.sanity.io" />
+    
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/lora.woff2" as="font" type="font/woff2" crossorigin />
-    <title>{title} | Jess Dog Sitting</title>
+    <title>{fullTitle}</title>
+    
+    <!-- Local Business Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": siteName,
+      "description": description,
+      "url": Astro.site?.toString(),
+      ...(settings?.phone && { "telephone": settings.phone }),
+      ...(location && {
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": location,
+          "addressCountry": "AU"
+        },
+        "areaServed": location
+      }),
+      "priceRange": "$$",
+      "sameAs": [
+        settings?.socialLinks?.instagram,
+        settings?.socialLinks?.facebook
+      ].filter(Boolean)
+    })} />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main style="margin-top: var(--header-height);">
+    <main id="main-content" style="margin-top: var(--header-height);">
       <slot />
     </main>
     <Footer />

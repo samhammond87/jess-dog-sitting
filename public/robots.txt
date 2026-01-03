@@ -1,0 +1,6 @@
+# Update the domain below to match your site URL in astro.config.mjs
+User-agent: *
+Allow: /
+
+Sitemap: https://jessdogsitting.com.au/sitemap-index.xml
+
