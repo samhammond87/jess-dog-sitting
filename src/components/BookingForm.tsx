@@ -245,18 +245,32 @@ function BookingForm({ questions }: BookingFormProps) {
 
       case 'checkbox':
         return (
-          <label className="booking-form__option-label">
-            <input
-              type="checkbox"
-              id={fieldName}
-              name={fieldName}
-              className="booking-form__checkbox booking-form__checkbox--single"
-              checked={Boolean(value)}
-              onChange={handleChange}
-              disabled={isDisabled}
-            />
-            <span>Yes</span>
-          </label>
+          <div id={`${fieldName}-wrapper`} className="booking-form__option-group booking-form__option-group--inline" role="radiogroup">
+            <label className="booking-form__option-label">
+              <input
+                type="radio"
+                name={fieldName}
+                value="Yes"
+                className="booking-form__radio"
+                checked={value === 'Yes'}
+                onChange={handleChange}
+                disabled={isDisabled}
+              />
+              <span>Yes</span>
+            </label>
+            <label className="booking-form__option-label">
+              <input
+                type="radio"
+                name={fieldName}
+                value="No"
+                className="booking-form__radio"
+                checked={value === 'No'}
+                onChange={handleChange}
+                disabled={isDisabled}
+              />
+              <span>No</span>
+            </label>
+          </div>
         );
 
       case 'radio':

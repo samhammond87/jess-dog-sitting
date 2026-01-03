@@ -120,6 +120,11 @@
   gap: var(--space-sm) var(--space-lg);
 }
 
+.booking-form__option-group--inline {
+  flex-wrap: nowrap;
+  gap: var(--space-xl);
+}
+
 .booking-form__option-label {
   display: flex;
   align-items: center;
