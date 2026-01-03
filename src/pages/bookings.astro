@@ -14,11 +14,12 @@ const bookingSteps = settings?.bookingProcess ?? [];
 
 // Helper to generate field names matching the React component
 function getFieldName(q: { _id: string; questionText: string }): string {
-  return q.questionText
+  const cleaned = q.questionText
     .replace(/[^a-zA-Z0-9\s]/g, '')
     .trim()
     .replace(/\s+/g, ' ')
     .slice(0, 60);
+  return `${cleaned}:`;
 }
 ---
 

@@ -33,12 +33,13 @@ function cx(...classes: (string | false | undefined)[]): string {
 
 // Generate a readable field name from question text
 function getFieldName(q: BookingQuestion): string {
-  // Keep it readable - just clean up special chars, preserve spaces as hyphens
-  return q.questionText
+  // Keep it readable - just clean up special chars, preserve spaces
+  const cleaned = q.questionText
     .replace(/[^a-zA-Z0-9\s]/g, '') // Remove special chars but keep spaces
     .trim()
     .replace(/\s+/g, ' ') // Normalize spaces
     .slice(0, 60); // Keep it reasonable length
+  return `${cleaned}:`;
 }
 
 function BookingForm({ questions }: BookingFormProps) {
