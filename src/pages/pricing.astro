@@ -43,12 +43,15 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
             </div>
           ))}
         </div>
-
-        <div class="contact-prompt">
-          <a href="/bookings" class="btn btn-primary">Get a Quote</a>
-        </div>
       </div>
     </section>
+
+    <CtaSection
+      title="Ready to Book?"
+      subtitle="Fill out the questionnaire and I'll get back to you!"
+      buttonText="Book Now"
+      buttonHref="/bookings"
+    />
 
     {terms.length > 0 && (
       <section class="section terms-section paw-trail">
@@ -74,13 +77,6 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
         </div>
       </section>
     )}
-
-    <CtaSection
-      title="Ready to Book?"
-      subtitle="Fill out the questionnaire and I'll get back to you!"
-      buttonText="Book Now"
-      buttonHref="/bookings"
-    />
   </div>
 </Layout>
 
@@ -98,19 +94,52 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
   }
 
   .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-xl);
+    --cols: 4;
+    --gap: var(--space-xl);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gap);
     margin-bottom: var(--space-2xl);
   }
 
   .pricing-card {
+    flex: 1 1 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    max-width: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    min-width: 200px;
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
     text-align: center;
     box-shadow: var(--shadow-md);
     transition: all var(--transition-base);
+  }
+
+  /* If count % 4 === 1 (would leave 1 orphan), use 3 columns instead */
+  .pricing-grid:has(.pricing-card:nth-last-child(1):nth-child(4n + 1)) {
+    --cols: 3;
+  }
+
+  /* If count % 3 === 1 AND count % 4 === 1, use 2 columns */
+  .pricing-grid:has(.pricing-card:nth-last-child(1):nth-child(4n + 1):nth-child(3n + 1)) {
+    --cols: 2;
+  }
+
+  @media (max-width: 1024px) {
+    .pricing-grid {
+      --cols: 2;
+    }
+
+    .pricing-grid:has(.pricing-card:nth-last-child(1):nth-child(2n + 1)) {
+      --cols: 3;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pricing-card {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
   }
 
   .pricing-card:hover {
@@ -133,10 +162,6 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
   .pricing-card p {
     color: var(--color-text-muted);
     font-size: var(--text-sm);
-  }
-
-  .contact-prompt {
-    text-align: center;
   }
 
   .terms-section {
