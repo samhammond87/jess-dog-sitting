@@ -26,6 +26,11 @@ const groupLabels: Record<string, string> = {
   'other': 'Other Information',
 };
 
+// Helper to combine class names
+function cx(...classes: (string | false | undefined)[]): string {
+  return classes.filter(Boolean).join(' ');
+}
+
 function BookingForm({ questions }: BookingFormProps) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState<Record<string, string | boolean | string[]>>({
@@ -177,33 +182,12 @@ function BookingForm({ questions }: BookingFormProps) {
     }
   };
 
-  const inputStyle = (hasError: boolean): React.CSSProperties => ({
-    width: '100%',
-    padding: 'var(--space-md)',
-    fontSize: 'var(--text-base)',
-    fontFamily: 'inherit',
-    border: `2px solid ${hasError ? 'var(--color-error)' : 'var(--color-sand)'}`,
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--color-surface)',
-    transition: 'border-color 150ms ease',
-  });
-
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontWeight: 500,
-    marginBottom: 'var(--space-sm)',
-  };
-
-  const fieldStyle: React.CSSProperties = {
-    marginBottom: 'var(--space-lg)',
-  };
-
   if (formState === 'success') {
     return (
-      <div style={{ textAlign: 'center', padding: 'var(--space-2xl)' }}>
-        <span style={{ fontSize: '4rem' }}>🎉</span>
-        <h3 style={{ marginTop: 'var(--space-md)' }}>Questionnaire Submitted!</h3>
-        <p style={{ color: 'var(--color-text-muted)' }}>
+      <div className="booking-form__success">
+        <span className="booking-form__success-icon">🎉</span>
+        <h3 className="booking-form__success-title">Questionnaire Submitted!</h3>
+        <p className="booking-form__success-text">
           Thanks for your interest! I'll review your answers and get back to you within 24 hours to arrange a meet & greet.
         </p>
       </div>
@@ -214,6 +198,7 @@ function BookingForm({ questions }: BookingFormProps) {
     const fieldName = `q_${q._id}`;
     const hasError = !!errors[fieldName];
     const value = formData[fieldName] ?? '';
+    const isDisabled = formState === 'submitting';
 
     switch (q.questionType) {
       case 'text':
@@ -222,10 +207,10 @@ function BookingForm({ questions }: BookingFormProps) {
             type="text"
             id={fieldName}
             name={fieldName}
-            style={inputStyle(hasError)}
+            className={cx('booking-form__input', hasError && 'booking-form__input--error')}
             value={String(value)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
         );
 
@@ -234,10 +219,10 @@ function BookingForm({ questions }: BookingFormProps) {
           <textarea
             id={fieldName}
             name={fieldName}
-            style={{ ...inputStyle(hasError), minHeight: '100px', resize: 'vertical' }}
+            className={cx('booking-form__textarea', hasError && 'booking-form__textarea--error')}
             value={String(value)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
         );
 
@@ -247,24 +232,24 @@ function BookingForm({ questions }: BookingFormProps) {
             type="number"
             id={fieldName}
             name={fieldName}
-            style={{ ...inputStyle(hasError), maxWidth: '150px' }}
+            className={cx('booking-form__input', 'booking-form__input--number', hasError && 'booking-form__input--error')}
             value={String(value)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
         );
 
       case 'checkbox':
         return (
-          <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}>
+          <label className="booking-form__option-label">
             <input
               type="checkbox"
               id={fieldName}
               name={fieldName}
+              className="booking-form__checkbox booking-form__checkbox--single"
               checked={Boolean(value)}
               onChange={handleChange}
-              disabled={formState === 'submitting'}
-              style={{ width: '20px', height: '20px' }}
+              disabled={isDisabled}
             />
             <span>Yes</span>
           </label>
@@ -272,17 +257,17 @@ function BookingForm({ questions }: BookingFormProps) {
 
       case 'radio':
         return (
-          <div id={`${fieldName}-wrapper`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <div id={`${fieldName}-wrapper`} className="booking-form__option-group">
             {q.options?.map((option, idx) => (
-              <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}>
+              <label key={idx} className="booking-form__option-label">
                 <input
                   type="radio"
                   name={fieldName}
                   value={option}
+                  className="booking-form__radio"
                   checked={value === option}
                   onChange={handleChange}
-                  disabled={formState === 'submitting'}
-                  style={{ width: '18px', height: '18px' }}
+                  disabled={isDisabled}
                 />
                 <span>{option}</span>
               </label>
@@ -293,17 +278,17 @@ function BookingForm({ questions }: BookingFormProps) {
       case 'checkboxes': {
         const selectedValues = Array.isArray(formData[fieldName]) ? formData[fieldName] as string[] : [];
         return (
-          <div id={`${fieldName}-wrapper`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <div id={`${fieldName}-wrapper`} className="booking-form__option-group">
             {q.options?.map((option, idx) => (
-              <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}>
+              <label key={idx} className="booking-form__option-label">
                 <input
                   type="checkbox"
                   name={`${fieldName}[]`}
                   value={option}
+                  className="booking-form__checkbox"
                   checked={selectedValues.includes(option)}
                   onChange={(e) => handleCheckboxesChange(fieldName, option, e.target.checked)}
-                  disabled={formState === 'submitting'}
-                  style={{ width: '18px', height: '18px' }}
+                  disabled={isDisabled}
                 />
                 <span>{option}</span>
               </label>
@@ -317,10 +302,10 @@ function BookingForm({ questions }: BookingFormProps) {
           <select
             id={fieldName}
             name={fieldName}
-            style={inputStyle(hasError)}
+            className={cx('booking-form__select', hasError && 'booking-form__select--error')}
             value={String(value)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           >
             <option value="">Select an option...</option>
             {q.options?.map((option, idx) => (
@@ -334,6 +319,8 @@ function BookingForm({ questions }: BookingFormProps) {
     }
   };
 
+  const isDisabled = formState === 'submitting';
+
   return (
     <form
       name="booking"
@@ -343,7 +330,7 @@ function BookingForm({ questions }: BookingFormProps) {
       onSubmit={handleSubmit}
     >
       <input type="hidden" name="form-name" value="booking" />
-      <p style={{ display: 'none' }}>
+      <p className="booking-form__honeypot">
         <label>
           Don't fill this out if you're human:
           <input name="bot-field" />
@@ -351,30 +338,28 @@ function BookingForm({ questions }: BookingFormProps) {
       </p>
 
       {/* Fixed contact fields */}
-      <div style={{ ...fieldStyle, padding: 'var(--space-lg)', background: 'var(--color-cream)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-xl)' }}>
-        <h3 style={{ marginBottom: 'var(--space-lg)', fontSize: 'var(--text-lg)' }}>Your Details</h3>
+      <div className="booking-form__contact-section">
+        <h3 className="booking-form__section-title">Your Details</h3>
         
-        <div style={fieldStyle}>
-          <label htmlFor="name" style={labelStyle}>
-            Your Name <span style={{ color: 'var(--color-primary)' }}>*</span>
+        <div className="booking-form__field">
+          <label htmlFor="name" className="booking-form__label">
+            Your Name <span className="booking-form__required">*</span>
           </label>
           <input
             type="text"
             id="name"
             name="name"
             autoComplete="name"
-            style={inputStyle(!!errors.name)}
+            className={cx('booking-form__input', errors.name && 'booking-form__input--error')}
             value={String(formData.name)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
-          {errors.name && (
-            <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.name}</span>
-          )}
+          {errors.name && <span className="booking-form__error">{errors.name}</span>}
         </div>
 
-        <div style={fieldStyle}>
-          <label htmlFor="email" style={labelStyle}>
+        <div className="booking-form__field">
+          <label htmlFor="email" className="booking-form__label">
             Email Address
           </label>
           <input
@@ -382,18 +367,16 @@ function BookingForm({ questions }: BookingFormProps) {
             id="email"
             name="email"
             autoComplete="email"
-            style={inputStyle(!!errors.email || !!errors.contact)}
+            className={cx('booking-form__input', (errors.email || errors.contact) && 'booking-form__input--error')}
             value={String(formData.email)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
-          {errors.email && (
-            <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.email}</span>
-          )}
+          {errors.email && <span className="booking-form__error">{errors.email}</span>}
         </div>
 
-        <div style={fieldStyle}>
-          <label htmlFor="phone" style={labelStyle}>
+        <div className="booking-form__field">
+          <label htmlFor="phone" className="booking-form__label">
             Phone Number
           </label>
           <input
@@ -401,46 +384,34 @@ function BookingForm({ questions }: BookingFormProps) {
             id="phone"
             name="phone"
             autoComplete="tel"
-            style={inputStyle(!!errors.phone || !!errors.contact)}
+            className={cx('booking-form__input', (errors.phone || errors.contact) && 'booking-form__input--error')}
             value={String(formData.phone)}
             onChange={handleChange}
-            disabled={formState === 'submitting'}
+            disabled={isDisabled}
           />
-          {errors.phone && (
-            <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.phone}</span>
-          )}
+          {errors.phone && <span className="booking-form__error">{errors.phone}</span>}
         </div>
 
-        {errors.contact && (
-          <p style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)', marginTop: 'calc(-1 * var(--space-md))' }}>
-            {errors.contact}
-          </p>
-        )}
+        {errors.contact && <p className="booking-form__contact-error">{errors.contact}</p>}
       </div>
 
       {/* Dynamic questions grouped by section */}
       {sortedGroups.map(([group, groupQuestions]) => (
-        <div key={group} style={{ marginBottom: 'var(--space-xl)' }}>
-          <h3 style={{ marginBottom: 'var(--space-lg)', fontSize: 'var(--text-lg)', color: 'var(--color-primary)' }}>
+        <div key={group} className="booking-form__group">
+          <h3 className="booking-form__group-title">
             {groupLabels[group] || group}
           </h3>
           
           {groupQuestions.map((q) => (
-            <div key={q._id} style={fieldStyle}>
-              <label htmlFor={`q_${q._id}`} style={labelStyle}>
+            <div key={q._id} className="booking-form__field">
+              <label htmlFor={`q_${q._id}`} className="booking-form__label">
                 {q.questionText}
-                {q.required && <span style={{ color: 'var(--color-primary)' }}> *</span>}
+                {q.required && <span className="booking-form__required"> *</span>}
               </label>
-              {q.description && (
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginBottom: 'var(--space-sm)' }}>
-                  {q.description}
-                </p>
-              )}
+              {q.description && <p className="booking-form__helper">{q.description}</p>}
               {renderQuestion(q)}
               {errors[`q_${q._id}`] && (
-                <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>
-                  {errors[`q_${q._id}`]}
-                </span>
+                <span className="booking-form__error">{errors[`q_${q._id}`]}</span>
               )}
             </div>
           ))}
@@ -448,30 +419,20 @@ function BookingForm({ questions }: BookingFormProps) {
       ))}
 
       {formState === 'error' && (
-        <div
-          style={{
-            padding: 'var(--space-md)',
-            backgroundColor: 'var(--color-error-bg)',
-            color: 'var(--color-error)',
-            borderRadius: 'var(--radius-md)',
-            marginBottom: 'var(--space-lg)',
-          }}
-        >
+        <div className="booking-form__error-banner">
           Oops! Something went wrong. Please try again or email me directly.
         </div>
       )}
 
       <button
         type="submit"
-        className="btn btn-primary"
-        disabled={formState === 'submitting'}
-        style={{ width: '100%' }}
+        className="btn btn-primary booking-form__submit"
+        disabled={isDisabled}
       >
-        {formState === 'submitting' ? 'Submitting...' : 'Submit Questionnaire'}
+        {isDisabled ? 'Submitting...' : 'Submit Questionnaire'}
       </button>
     </form>
   );
 }
 
 export default BookingForm;
-

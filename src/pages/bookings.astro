@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import BookingForm from '../components/BookingForm';
 import { getSiteSettings, getBookingQuestions } from '../lib/sanity';
+import '../styles/booking-form.css';
 
 const [settings, questions] = await Promise.all([
   getSiteSettings(),
