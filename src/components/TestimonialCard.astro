@@ -1,0 +1,94 @@
+---
+import Card from './Card.astro';
+import { urlFor, hasValidAsset, type Testimonial } from '../lib/sanity';
+
+interface Props {
+  testimonial: Testimonial;
+  showRating?: boolean;
+  animationDelay?: number;
+}
+
+const { testimonial, showRating = false, animationDelay } = Astro.props;
+
+function renderStars(rating: number = 5) {
+  return Array.from({ length: 5 }, (_, i) => i < rating ? '★' : '☆').join('');
+}
+---
+
+<Card class="testimonial-card" animationDelay={animationDelay}>
+  {showRating && (
+    <div class="stars">{renderStars(testimonial.rating)}</div>
+  )}
+  <blockquote>"{testimonial.quote}"</blockquote>
+  <div class="author">
+    <div class="avatar">
+      {hasValidAsset(testimonial.image) ? (
+        <img 
+          src={urlFor(testimonial.image).width(50).height(50).url()} 
+          alt={testimonial.dogName}
+          width="50"
+          height="50"
+          loading="lazy"
+        />
+      ) : <span>🐕</span>}
+    </div>
+    <div class="info">
+      <strong>{testimonial.name}</strong>
+      <span>& {testimonial.dogName}</span>
+    </div>
+  </div>
+</Card>
+
+<style>
+  .testimonial-card {
+    padding: var(--space-2xl);
+  }
+
+  .stars {
+    color: #f59e0b;
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-md);
+  }
+
+  blockquote {
+    font-size: var(--text-lg);
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xl);
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    overflow: hidden;
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .info strong {
+    display: block;
+  }
+
+  .info span {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>
+
