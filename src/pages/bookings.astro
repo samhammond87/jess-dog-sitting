@@ -1,0 +1,151 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import BookingForm from '../components/BookingForm';
+import { getSiteSettings, getBookingQuestions } from '../lib/sanity';
+
+const [settings, questions] = await Promise.all([
+  getSiteSettings(),
+  getBookingQuestions(),
+]);
+
+const bookingSteps = settings?.bookingProcess ?? [];
+---
+
+<Layout title="Book a Stay" description="Book your dog's next stay with Jess - fill out our questionnaire to get started">
+  <div class="bookings-page">
+    <Hero 
+      title="Book a Stay" 
+      subtitle="Let's get to know you and your furry friend!"
+    />
+
+    {bookingSteps.length > 0 && (
+      <section class="section how-to-book">
+        <div class="container">
+          <h2 class="section-title">How to Book</h2>
+          <div class="steps-grid">
+            {bookingSteps.map((step, index) => (
+              <div class="step-card" style={`animation-delay: ${index * 100}ms`}>
+                <span class="step-number">{index + 1}</span>
+                <h3>{step.title}</h3>
+                {step.description && <p>{step.description}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <section class="section questionnaire-section">
+      <div class="container">
+        <div class="form-container">
+          <div class="form-header">
+            <h2>Booking Questionnaire</h2>
+            <p class="form-intro">
+              Please fill out this form so I can learn about your pup and their needs. 
+              I'll get back to you within 24 hours to arrange a meet & greet!
+            </p>
+          </div>
+          
+          <BookingForm client:load questions={questions} />
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .how-to-book {
+    background-color: var(--color-forest);
+    color: var(--color-white);
+  }
+
+  .how-to-book .section-title {
+    color: var(--color-white);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .step-card {
+    text-align: center;
+    padding: var(--space-xl);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-terracotta);
+    color: var(--color-white);
+    font-size: var(--text-xl);
+    font-weight: bold;
+    margin-bottom: var(--space-md);
+  }
+
+  .step-card h3 {
+    color: var(--color-white);
+    margin-bottom: var(--space-sm);
+  }
+
+  .step-card p {
+    font-size: var(--text-sm);
+    opacity: 0.9;
+  }
+
+  .questionnaire-section {
+    background-color: var(--color-background);
+  }
+
+  .form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--color-surface);
+    padding: var(--space-2xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .form-header h2 {
+    margin-bottom: var(--space-md);
+  }
+
+  .form-intro {
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-container {
+      padding: var(--space-lg);
+    }
+  }
+</style>
+
