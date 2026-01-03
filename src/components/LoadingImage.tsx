@@ -49,9 +49,9 @@ function LoadingImage({
     borderRadius: rounded ? '50%' : 'var(--radius-xl)',
     boxShadow: 'var(--shadow-xl)',
     background: 'var(--color-cream)',
-    width: imgWidth, 
-    height: imgHeight,
-    aspectRatio
+    width: '100%',
+    maxWidth: imgWidth, 
+    aspectRatio: aspectRatio ?? (imgWidth && imgHeight ? `${imgWidth}/${imgHeight}` : '1/1')
   };
 
   const lqipStyle: React.CSSProperties = {

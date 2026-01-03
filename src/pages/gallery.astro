@@ -120,5 +120,12 @@ const validImages = images.filter((img) => hasValidAsset(img.image));
       gap: var(--space-md);
     }
   }
+
+  @media (max-width: 480px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
 </style>
 
