@@ -116,8 +116,8 @@
 /* Checkbox & Radio */
 .booking-form__option-group {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-lg);
 }
 
 .booking-form__option-label {
@@ -125,6 +125,7 @@
   align-items: center;
   gap: var(--space-sm);
   cursor: pointer;
+  padding: var(--space-xs) 0;
 }
 
 .booking-form__option-label:hover {
