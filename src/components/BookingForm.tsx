@@ -13,7 +13,9 @@ interface FormErrors {
   [key: string]: string | undefined;
 }
 
-// Group labels for display
+// Canonical group order and labels
+const GROUP_ORDER = ['contact', 'dog-info', 'medical', 'behavior', 'care', 'emergency', 'other'] as const;
+
 const groupLabels: Record<string, string> = {
   'contact': 'Contact Details',
   'dog-info': 'Dog Information',
@@ -33,13 +35,18 @@ function BookingForm({ questions }: BookingFormProps) {
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
-  // Group questions by their group field
+  // Group questions by their group field, maintaining canonical order
   const groupedQuestions = questions.reduce<Record<string, BookingQuestion[]>>((acc, q) => {
     const group = q.group || 'other';
     if (!acc[group]) acc[group] = [];
     acc[group].push(q);
     return acc;
   }, {});
+
+  // Sort groups by canonical order, sort questions within each group by order
+  const sortedGroups = GROUP_ORDER
+    .filter((g) => groupedQuestions[g]?.length > 0)
+    .map((g) => [g, groupedQuestions[g].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))] as const);
 
   const validateForm = (): FormErrors => {
     const newErrors: FormErrors = {};
@@ -67,13 +74,13 @@ function BookingForm({ questions }: BookingFormProps) {
     }
 
     // Validate required questions
+    // Note: For checkbox (yes/no), false is a valid answer ("No"), only undefined is empty
     questions.forEach((q) => {
       if (q.required) {
         const value = formData[`q_${q._id}`];
         const isEmpty = 
           value === undefined || 
-          value === '' || 
-          value === false ||
+          value === '' ||
           (Array.isArray(value) && value.length === 0);
         if (isEmpty) {
           newErrors[`q_${q._id}`] = 'This field is required';
@@ -93,8 +100,15 @@ function BookingForm({ questions }: BookingFormProps) {
       [name]: type === 'checkbox' ? checked : value,
     }));
 
-    if (Object.keys(errors).length > 0) {
-      setErrors({});
+    // Clear only the specific field's error (and contact error for email/phone)
+    if (errors[name] || (name === 'email' || name === 'phone') && errors.contact) {
+      setErrors((prev) => {
+        const next = { ...prev, [name]: undefined };
+        if (name === 'email' || name === 'phone') {
+          next.contact = undefined;
+        }
+        return next;
+      });
     }
   };
 
@@ -108,8 +122,9 @@ function BookingForm({ questions }: BookingFormProps) {
       return { ...prev, [fieldName]: newValues };
     });
 
-    if (Object.keys(errors).length > 0) {
-      setErrors({});
+    // Clear only this field's error
+    if (errors[fieldName]) {
+      setErrors((prev) => ({ ...prev, [fieldName]: undefined }));
     }
   };
 
@@ -124,13 +139,17 @@ function BookingForm({ questions }: BookingFormProps) {
       const firstErrorKey = Object.keys(formErrors)[0];
       // Map special error keys to actual element IDs
       const elementId = firstErrorKey === 'contact' ? 'email' : firstErrorKey;
+      // Try: direct ID, wrapper ID (for radio/checkboxes), or name attribute
       const errorElement = document.getElementById(elementId) || 
-                          document.querySelector(`[name="${elementId}"]`);
+                          document.getElementById(`${elementId}-wrapper`) ||
+                          document.querySelector(`[name="${elementId}"]`) ||
+                          document.querySelector(`[name="${elementId}[]"]`);
       if (errorElement) {
         errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        // Focus the element if it's focusable
-        if (errorElement instanceof HTMLElement) {
-          errorElement.focus({ preventScroll: true });
+        // Focus the first input within the wrapper if it's a wrapper, otherwise focus directly
+        const focusTarget = errorElement.querySelector('input, textarea, select') || errorElement;
+        if (focusTarget instanceof HTMLElement) {
+          focusTarget.focus({ preventScroll: true });
         }
       }
       return;
@@ -253,7 +272,7 @@ function BookingForm({ questions }: BookingFormProps) {
 
       case 'radio':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <div id={`${fieldName}-wrapper`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
             {q.options?.map((option, idx) => (
               <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}>
                 <input
@@ -274,7 +293,7 @@ function BookingForm({ questions }: BookingFormProps) {
       case 'checkboxes': {
         const selectedValues = Array.isArray(formData[fieldName]) ? formData[fieldName] as string[] : [];
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <div id={`${fieldName}-wrapper`} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
             {q.options?.map((option, idx) => (
               <label key={idx} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', cursor: 'pointer' }}>
                 <input
@@ -400,7 +419,7 @@ function BookingForm({ questions }: BookingFormProps) {
       </div>
 
       {/* Dynamic questions grouped by section */}
-      {Object.entries(groupedQuestions).map(([group, groupQuestions]) => (
+      {sortedGroups.map(([group, groupQuestions]) => (
         <div key={group} style={{ marginBottom: 'var(--space-xl)' }}>
           <h3 style={{ marginBottom: 'var(--space-lg)', fontSize: 'var(--text-lg)', color: 'var(--color-primary)' }}>
             {groupLabels[group] || group}

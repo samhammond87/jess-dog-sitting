@@ -18,7 +18,7 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
 
 <Layout title={homeTitle} description={homeDescription}>
   <div class="home">
-    <section class="hero">
+    <section class:list={['hero', { 'hero--no-image': !heroImageUrl }]}>
       {heroImageUrl && (
         <div class="hero-background">
           <img 
@@ -172,8 +172,8 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
     font-size: var(--text-sm);
   }
 
-  /* Fallback when no hero image */
-  .hero:not(:has(.hero-background)) {
+  /* Fallback when no hero image (explicit class for browser compatibility) */
+  .hero--no-image {
     background: linear-gradient(
       135deg,
       var(--color-forest) 0%,
