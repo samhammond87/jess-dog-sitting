@@ -12,6 +12,10 @@ interface LoadingImageProps {
   size?: number;
   aspectRatio?: string;
   rounded?: boolean;
+  /** Set to "eager" for above-the-fold images (hero, LCP). Default: "lazy" */
+  loading?: 'lazy' | 'eager';
+  /** Set to "high" for LCP images to prioritize fetching. */
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 function LoadingImage({ 
@@ -22,7 +26,9 @@ function LoadingImage({
   height,
   size, 
   aspectRatio,
-  rounded = true 
+  rounded = true,
+  loading = 'lazy',
+  fetchPriority
 }: LoadingImageProps) {
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -86,8 +92,9 @@ function LoadingImage({
           alt={alt}
           width={imgWidth}
           height={imgHeight}
-          loading="lazy"
+          loading={loading}
           decoding="async"
+          fetchPriority={fetchPriority}
           style={imageStyle}
           onLoad={() => setLoaded(true)}
         />

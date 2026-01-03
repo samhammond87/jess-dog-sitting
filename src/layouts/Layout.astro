@@ -59,7 +59,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta name="twitter:image" content={ogImageURL} />
     
     <!-- Preconnect to Sanity CDN for faster image loading -->
-    <link rel="preconnect" href="https://cdn.sanity.io" />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/dm-sans.woff2" as="font" type="font/woff2" crossorigin />
@@ -70,29 +70,29 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
+      "@id": Astro.site?.toString(),
       "name": siteName,
       "description": description,
       "url": Astro.site?.toString(),
-      ...(settings?.phone && { "telephone": settings.phone }),
-      ...(location && {
+      ...(settings?.phone ? { "telephone": settings.phone } : {}),
+      ...(location ? {
         "address": {
           "@type": "PostalAddress",
           "addressLocality": location,
           "addressCountry": "AU"
         },
         "areaServed": location
-      }),
+      } : {}),
       "priceRange": "$$",
-      "sameAs": [
-        settings?.socialLinks?.instagram,
-        settings?.socialLinks?.facebook
-      ].filter(Boolean)
+      ...([settings?.socialLinks?.instagram, settings?.socialLinks?.facebook].filter(Boolean).length > 0 
+        ? { "sameAs": [settings?.socialLinks?.instagram, settings?.socialLinks?.facebook].filter(Boolean) } 
+        : {})
     })} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main id="main-content" style="margin-top: var(--header-height);">
+    <main id="main-content" tabindex="-1" style="margin-top: var(--header-height);">
       <slot />
     </main>
     <Footer />
