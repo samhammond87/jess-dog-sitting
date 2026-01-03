@@ -2,7 +2,7 @@
 interface Props {
   title?: string;
   subtitle?: string;
-  background?: 'default' | 'surface' | 'forest' | 'terracotta';
+  background?: 'default' | 'surface' | 'dark' | 'warm' | 'accent';
   class?: string;
 }
 
@@ -16,8 +16,9 @@ const {
 const backgroundClasses: Record<string, string> = {
   default: 'bg-default',
   surface: 'bg-surface',
-  forest: 'bg-forest',
-  terracotta: 'bg-terracotta',
+  dark: 'bg-dark',
+  warm: 'bg-warm',
+  accent: 'bg-accent',
 };
 ---
 
@@ -42,22 +43,31 @@ const backgroundClasses: Record<string, string> = {
     background-color: var(--color-surface);
   }
 
-  .bg-forest {
-    background: linear-gradient(135deg, var(--color-burgundy), var(--color-burgundy-deep));
+  .bg-dark {
+    background: var(--color-brown);
     color: var(--color-white);
   }
 
-  .bg-forest .section-title {
+  .bg-dark .section-title {
     color: var(--color-white);
   }
 
-  .bg-terracotta {
+  .bg-warm {
     background: linear-gradient(135deg, var(--color-caramel), var(--color-caramel-dark));
     color: var(--color-white);
   }
 
-  .bg-terracotta .section-title {
+  .bg-warm .section-title {
     color: var(--color-white);
+  }
+
+  .bg-accent {
+    background: var(--color-lavender);
+    color: var(--color-black);
+  }
+
+  .bg-accent .section-title {
+    color: var(--color-black);
   }
 
   .section-title {
@@ -74,9 +84,13 @@ const backgroundClasses: Record<string, string> = {
     margin: 0 auto var(--space-2xl);
   }
 
-  .bg-forest .section-subtitle,
-  .bg-terracotta .section-subtitle {
+  .bg-dark .section-subtitle,
+  .bg-warm .section-subtitle {
     color: rgba(255, 255, 255, 0.9);
+  }
+
+  .bg-accent .section-subtitle {
+    color: var(--color-brown);
   }
 </style>
 
