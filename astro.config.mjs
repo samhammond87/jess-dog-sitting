@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://jessdogsitting.com.au',
+  site: 'https://jess-dog-sitting.netlify.app',
   trailingSlash: 'never',
   integrations: [react(), sitemap()]
 });
