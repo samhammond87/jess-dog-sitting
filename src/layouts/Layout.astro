@@ -69,10 +69,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": Astro.site?.toString(),
+      "@id": `${Astro.site?.toString()}#localbusiness`,
       "name": siteName,
       "description": description,
-      "url": Astro.site?.toString(),
+      "url": canonicalURL.toString(),
       ...(settings?.phone ? { "telephone": settings.phone } : {}),
       "address": {
         "@type": "PostalAddress",

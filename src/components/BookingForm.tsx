@@ -166,10 +166,14 @@ function BookingForm({ questions }: BookingFormProps) {
     const formDataObj = new FormData(form);
 
     try {
+      // Build params safely - handles repeated keys (multi-select) correctly
+      const params = new URLSearchParams();
+      formDataObj.forEach((value, key) => params.append(key, String(value)));
+
       const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formDataObj as unknown as Record<string, string>).toString(),
+        body: params.toString(),
       });
 
       if (response.ok) {
@@ -257,42 +261,50 @@ function BookingForm({ questions }: BookingFormProps) {
 
       case 'radio':
         return (
-          <div id={`${fieldName}-wrapper`} className="booking-form__option-group">
-            {q.options?.map((option, idx) => (
-              <label key={idx} className="booking-form__option-label">
-                <input
-                  type="radio"
-                  name={fieldName}
-                  value={option}
-                  className="booking-form__radio"
-                  checked={value === option}
-                  onChange={handleChange}
-                  disabled={isDisabled}
-                />
-                <span>{option}</span>
-              </label>
-            ))}
+          <div id={`${fieldName}-wrapper`} className="booking-form__option-group" role="radiogroup">
+            {q.options?.map((option, idx) => {
+              const optionId = `${fieldName}_${idx}`;
+              return (
+                <label key={idx} className="booking-form__option-label" htmlFor={optionId}>
+                  <input
+                    id={optionId}
+                    type="radio"
+                    name={fieldName}
+                    value={option}
+                    className="booking-form__radio"
+                    checked={value === option}
+                    onChange={handleChange}
+                    disabled={isDisabled}
+                  />
+                  <span>{option}</span>
+                </label>
+              );
+            })}
           </div>
         );
 
       case 'checkboxes': {
         const selectedValues = Array.isArray(formData[fieldName]) ? formData[fieldName] as string[] : [];
         return (
-          <div id={`${fieldName}-wrapper`} className="booking-form__option-group">
-            {q.options?.map((option, idx) => (
-              <label key={idx} className="booking-form__option-label">
-                <input
-                  type="checkbox"
-                  name={`${fieldName}[]`}
-                  value={option}
-                  className="booking-form__checkbox"
-                  checked={selectedValues.includes(option)}
-                  onChange={(e) => handleCheckboxesChange(fieldName, option, e.target.checked)}
-                  disabled={isDisabled}
-                />
-                <span>{option}</span>
-              </label>
-            ))}
+          <div id={`${fieldName}-wrapper`} className="booking-form__option-group" role="group">
+            {q.options?.map((option, idx) => {
+              const optionId = `${fieldName}_${idx}`;
+              return (
+                <label key={idx} className="booking-form__option-label" htmlFor={optionId}>
+                  <input
+                    id={optionId}
+                    type="checkbox"
+                    name={`${fieldName}[]`}
+                    value={option}
+                    className="booking-form__checkbox"
+                    checked={selectedValues.includes(option)}
+                    onChange={(e) => handleCheckboxesChange(fieldName, option, e.target.checked)}
+                    disabled={isDisabled}
+                  />
+                  <span>{option}</span>
+                </label>
+              );
+            })}
           </div>
         );
       }
