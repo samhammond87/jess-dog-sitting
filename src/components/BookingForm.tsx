@@ -31,6 +31,22 @@ function cx(...classes: (string | false | undefined)[]): string {
   return classes.filter(Boolean).join(' ');
 }
 
+// Slugify question text for readable form field names
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 50); // Keep it reasonable length
+}
+
+// Generate a readable field name from question text (with short ID suffix for uniqueness)
+function getFieldName(q: BookingQuestion): string {
+  const slug = slugify(q.questionText);
+  const shortId = q._id.slice(0, 6); // First 6 chars of ID for uniqueness
+  return `${slug}-${shortId}`;
+}
+
 function BookingForm({ questions }: BookingFormProps) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState<Record<string, string | boolean | string[]>>({
@@ -82,13 +98,13 @@ function BookingForm({ questions }: BookingFormProps) {
     // Note: For checkbox (yes/no), false is a valid answer ("No"), only undefined is empty
     questions.forEach((q) => {
       if (q.required) {
-        const value = formData[`q_${q._id}`];
+        const value = formData[getFieldName(q)];
         const isEmpty = 
           value === undefined || 
           value === '' ||
           (Array.isArray(value) && value.length === 0);
         if (isEmpty) {
-          newErrors[`q_${q._id}`] = 'This field is required';
+          newErrors[getFieldName(q)] = 'This field is required';
         }
       }
     });
@@ -199,7 +215,7 @@ function BookingForm({ questions }: BookingFormProps) {
   }
 
   const renderQuestion = (q: BookingQuestion) => {
-    const fieldName = `q_${q._id}`;
+    const fieldName = getFieldName(q);
     const hasError = !!errors[fieldName];
     const value = formData[fieldName] ?? '';
     const isDisabled = formState === 'submitting';
@@ -429,7 +445,7 @@ function BookingForm({ questions }: BookingFormProps) {
           </h3>
           
           {groupQuestions.map((q) => {
-            const fieldName = `q_${q._id}`;
+            const fieldName = getFieldName(q);
             const isGroupedInput = q.questionType === 'radio' || q.questionType === 'checkboxes';
             
             return (
