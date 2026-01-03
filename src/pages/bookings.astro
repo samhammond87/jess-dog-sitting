@@ -11,9 +11,42 @@ const [settings, questions] = await Promise.all([
 ]);
 
 const bookingSteps = settings?.bookingProcess ?? [];
+
+// Helper to generate field names matching the React component
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 50);
+}
+
+function getFieldName(q: { _id: string; questionText: string }): string {
+  const slug = slugify(q.questionText);
+  const shortId = q._id.slice(0, 6);
+  return `${slug}-${shortId}`;
+}
 ---
 
 <Layout title="Bookings" description="Enquire about dog sitting with Jess - fill out our questionnaire to get started">
+  {/* Hidden form for Netlify to detect field structure at build time */}
+  <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="booking" />
+    <input name="bot-field" />
+    <input name="name" />
+    <input name="email" />
+    <input name="phone" />
+    {questions.map((q) => {
+      const fieldName = getFieldName(q);
+      if (q.questionType === 'checkboxes') {
+        return q.options?.map((opt) => (
+          <input type="checkbox" name={`${fieldName}[]`} value={opt} />
+        ));
+      }
+      return <input name={fieldName} />;
+    })}
+  </form>
+
   <div class="bookings-page">
     <Hero 
       title="Bookings" 
