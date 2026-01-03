@@ -1,43 +1,29 @@
 import { defineField, defineType } from 'sanity';
 
 export default defineType({
-  name: 'service',
-  title: 'Service',
+  name: 'serviceType',
+  title: 'Service Type',
   type: 'document',
   fields: [
     defineField({
       name: 'title',
-      title: 'Service Title',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'description',
       title: 'Description',
-      type: 'text',
-      rows: 4,
+      type: 'string',
+      description: 'Short description of the service',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'price',
-      title: 'Price',
+      name: 'icon',
+      title: 'Icon (Emoji)',
       type: 'string',
-      description: 'e.g., "$30/day" or "From $25"',
-    }),
-    defineField({
-      name: 'image',
-      title: 'Service Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'features',
-      title: 'Features',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: 'List of features included in this service',
+      description: 'An emoji to represent this service (e.g., 🐕‍🦺, 🌳, 🏠, 🎄)',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'order',
@@ -45,13 +31,6 @@ export default defineType({
       type: 'number',
       description: 'Order in which services appear (lower = first)',
       initialValue: 0,
-    }),
-    defineField({
-      name: 'icon',
-      title: 'Icon Emoji',
-      type: 'string',
-      description: 'An emoji to represent this service',
-      initialValue: '🐕',
     }),
   ],
   orderings: [
@@ -64,8 +43,14 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      subtitle: 'price',
-      media: 'image',
+      icon: 'icon',
+      description: 'description',
+    },
+    prepare({ title, icon, description }) {
+      return {
+        title: `${icon || '❓'} ${title}`,
+        subtitle: description,
+      };
     },
   },
 });

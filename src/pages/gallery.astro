@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import LoadingImage from '../components/LoadingImage';
+import { getGalleryImages, urlFor, hasValidAsset } from '../lib/sanity';
+
+const images = await getGalleryImages();
+const validImages = images.filter((img) => hasValidAsset(img.image));
+---
+
+<Layout title="Gallery" description="See happy pups enjoying their stays with Jess Dog Sitting">
+  <div class="gallery-page">
+    <Hero 
+      title="Gallery" 
+      subtitle="Happy moments with my furry clients!"
+    />
+
+    <section class="section gallery-section">
+      <div class="container">
+        {validImages.length > 0 ? (
+          <div class="gallery-grid">
+            {validImages.map((item, index) => (
+              <div 
+                class="gallery-item"
+                style={`animation-delay: ${index * 50}ms`}
+              >
+                <div class="gallery-image-wrapper">
+                  <LoadingImage
+                    client:visible
+                    src={urlFor(item.image).width(400).height(400).url()}
+                    alt={item.caption || `Gallery image ${index + 1}`}
+                    lqip={item.imageLqip}
+                    size={400}
+                    rounded={false}
+                  />
+                </div>
+                {item.caption && (
+                  <p class="gallery-caption">{item.caption}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="empty-gallery">
+            <span class="empty-icon">📸</span>
+            <p>Gallery coming soon! Check back for adorable pup photos.</p>
+          </div>
+        )}
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style>
+  .gallery-section {
+    background-color: var(--color-background);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .gallery-item {
+    animation: scaleIn 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  .gallery-image-wrapper {
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .gallery-item:hover .gallery-image-wrapper {
+    transform: scale(1.02);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .gallery-caption {
+    margin-top: var(--space-md);
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .empty-gallery {
+    text-align: center;
+    padding: var(--space-4xl) var(--space-xl);
+  }
+
+  .empty-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: var(--space-lg);
+  }
+
+  .empty-gallery p {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+    }
+  }
+</style>
+

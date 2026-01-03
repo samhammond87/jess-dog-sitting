@@ -1,110 +1,85 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import Section from '../components/Section.astro';
 import CtaSection from '../components/CtaSection.astro';
-import { getServices, getTermsPolicies, urlFor, hasValidAsset } from '../lib/sanity';
+import { getTermsPolicies, getServiceTypes } from '../lib/sanity';
 
-const [services, terms] = await Promise.all([
-  getServices(),
+const [terms, serviceTypes] = await Promise.all([
   getTermsPolicies(),
+  getServiceTypes(),
 ]);
 
-const addOns = [
-  { name: 'Extended Walk (60 min)', price: '+$15' },
-  { name: 'Additional Pet (same household)', price: '+$10/day' },
-  { name: 'Bath & Brush', price: '+$25' },
-  { name: 'Holiday Rate', price: '+50%' },
-  { name: 'Last-Minute Booking (<24hrs)', price: '+$15' },
-  { name: 'Puppy Care (under 1 year)', price: '+$10/day' },
+// Fallback service types if none defined in Sanity
+const defaultServices = [
+  { _id: 'walks', title: 'Walks', description: 'Regular walks to keep your pup active and happy', icon: '🐕‍🦺' },
+  { _id: 'park', title: 'Park Time', description: 'Fun and social time at the local dog park', icon: '🌳' },
+  { _id: 'days', title: 'Dog Days', description: "Full day care while you're at work or busy", icon: '🏠' },
+  { _id: 'holidays', title: 'Holidays', description: 'Extended stays and overnight care for vacations', icon: '🎄' },
 ];
+
+const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
 ---
 
-<Layout title="Pricing & Terms" description="Transparent pricing with no hidden fees for dog sitting services">
+<Layout title="Pricing & Terms" description="Transparent pricing for dog sitting services - walks, park time, dog days, and holiday stays">
   <div class="pricing-page">
     <Hero 
       title="Pricing & Terms" 
-      subtitle="Transparent pricing with no hidden fees. Your pup deserves the best!"
+      subtitle="Transparent pricing with no hidden fees"
     />
 
     <section class="section pricing-section">
       <div class="container">
-        <h2 class="section-title">Service Rates</h2>
-        <p class="section-subtitle">All prices are for one dog. Multi-pet discounts available!</p>
+        <p class="pricing-intro">
+          Pricing varies based on your dog's needs and the type of care required. 
+          Get in touch to discuss rates for:
+        </p>
         
         <div class="pricing-grid">
-          {services.map((service, index) => (
-            <div 
-              class={`pricing-card ${index === 0 ? 'popular' : ''}`}
-              style={`animation-delay: ${index * 100}ms`}
-            >
-              {index === 0 && <span class="popular-badge">Most Popular</span>}
-              <div class="card-header">
-                {hasValidAsset(service.image) ? (
-                  <img src={urlFor(service.image).width(80).height(80).url()} alt={service.title} class="service-image" />
-                ) : (
-                  <span class="service-icon">{service.icon || '🐕'}</span>
+          {services.map((service) => (
+            <div class="pricing-card">
+              <span class="pricing-icon">{service.icon}</span>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div class="contact-prompt">
+          <a href="/bookings" class="btn btn-primary">Get a Quote</a>
+        </div>
+      </div>
+    </section>
+
+    {terms.length > 0 && (
+      <section class="section terms-section">
+        <div class="container">
+          <h2 class="terms-title">Terms & Conditions</h2>
+          <div class="terms-grid">
+            {terms.map((policy) => (
+              <div class="terms-card">
+                <h3>{policy.icon || '📋'} {policy.title}</h3>
+                {policy.items && policy.items.length > 0 && (
+                  <ul>
+                    {policy.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
                 )}
-                <h3>{service.title}</h3>
               </div>
-              {service.price && <div class="price">{service.price}</div>}
-              <p class="description">{service.description}</p>
-              {service.features && (
-                <ul class="features">
-                  {service.features.map((feature) => (
-                    <li><span class="checkmark">✓</span> {feature}</li>
-                  ))}
-                </ul>
-              )}
-              <a href="/contact" class="btn btn-primary">Book Now</a>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div class="terms-footer">
+            <p>By booking my services, you agree to these terms. Questions? <a href="/contact">Get in touch</a>!</p>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <section class="addons-section">
-      <div class="container">
-        <h2 class="section-title" style="color: var(--color-white)">Add-Ons & Extras</h2>
-        <div class="addons-grid">
-          {addOns.map((addon) => (
-            <div class="addon-item">
-              <span class="addon-name">{addon.name}</span>
-              <span class="addon-price">{addon.price}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section class="section terms-section">
-      <div class="container">
-        <h2 class="terms-title">Terms & Conditions</h2>
-        <div class="terms-grid">
-          {terms.map((policy) => (
-            <div class="terms-card">
-              <h3>{policy.icon || '📋'} {policy.title}</h3>
-              {policy.items && (
-                <ul>
-                  {policy.items.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-        <div class="terms-footer">
-          <p>By booking my services, you agree to these terms. Questions? <a href="/contact">Get in touch</a>!</p>
-        </div>
-      </div>
-    </section>
+      </section>
+    )}
 
     <CtaSection
       title="Ready to Book?"
-      subtitle="Let's schedule that meet & greet!"
-      buttonText="Contact Me"
-      buttonHref="/contact"
+      subtitle="Fill out the questionnaire and I'll get back to you!"
+      buttonText="Book Now"
+      buttonHref="/bookings"
     />
   </div>
 </Layout>
@@ -114,111 +89,54 @@ const addOns = [
     background-color: var(--color-background);
   }
 
+  .pricing-intro {
+    text-align: center;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto var(--space-2xl);
+  }
+
   .pricing-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
   }
 
   .pricing-card {
-    position: relative;
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
-    box-shadow: var(--shadow-md);
-    display: flex;
-    flex-direction: column;
-    animation: fadeInUp 0.6s ease forwards;
-  }
-
-  .pricing-card.popular {
-    border: 2px solid var(--color-primary);
-  }
-
-  .popular-badge {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-primary);
-    color: white;
-    padding: var(--space-xs) var(--space-md);
-    border-radius: var(--radius-full);
-    font-size: var(--text-sm);
-    font-weight: 600;
-  }
-
-  .card-header {
     text-align: center;
-    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
   }
 
-  .service-icon {
+  .pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .pricing-icon {
     font-size: 3rem;
     display: block;
+    margin-bottom: var(--space-md);
+  }
+
+  .pricing-card h3 {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
     margin-bottom: var(--space-sm);
   }
 
-  .service-image {
-    width: 80px;
-    height: 80px;
-    border-radius: var(--radius-lg);
-    object-fit: cover;
-    margin: 0 auto var(--space-sm);
-  }
-
-  .price {
-    text-align: center;
-    font-size: var(--text-2xl);
-    font-weight: bold;
-    color: var(--color-primary);
-    margin-bottom: var(--space-lg);
-  }
-
-  .description {
+  .pricing-card p {
     color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .contact-prompt {
     text-align: center;
-    margin-bottom: var(--space-lg);
-    flex-grow: 1;
-  }
-
-  .features {
-    margin-bottom: var(--space-xl);
-  }
-
-  .features li {
-    padding: var(--space-sm) 0;
-    color: var(--color-text-muted);
-  }
-
-  .checkmark {
-    color: var(--color-secondary);
-    margin-right: var(--space-sm);
-  }
-
-  .addons-section {
-    background: linear-gradient(135deg, var(--color-forest), var(--color-forest-light));
-    padding: var(--space-4xl) 0;
-  }
-
-  .addons-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
-  }
-
-  .addon-item {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--space-lg);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    color: var(--color-white);
-  }
-
-  .addon-price {
-    font-weight: 600;
-    color: var(--color-sand);
   }
 
   .terms-section {
@@ -234,7 +152,7 @@ const addOns = [
 
   .terms-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-xl);
     margin-bottom: var(--space-2xl);
   }
@@ -269,19 +187,5 @@ const addOns = [
     text-decoration: underline;
   }
 
-  @media (max-width: 1024px) {
-    .pricing-grid, .terms-grid {
-      grid-template-columns: 1fr;
-    }
-    .addons-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .addons-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+  /* Grid is now auto-responsive via auto-fit */
 </style>
-
