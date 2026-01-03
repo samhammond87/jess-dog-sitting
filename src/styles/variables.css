@@ -1,31 +1,38 @@
 /* 
  * Jess Dog Sitting - Design System
- * A warm, playful aesthetic with earthy tones
+ * Warm earthy tones with lavender accent
  */
 
 :root {
-  /* Color Palette - Warm & Inviting */
-  --color-cream: #FDF6E3;
-  --color-sand: #E8DCC4;
-  --color-terracotta: #C4704B;
-  --color-terracotta-dark: #A85835;
-  --color-forest: #3D5A4C;
-  --color-forest-light: #4A6B5A;
-  --color-charcoal: #2D2D2D;
-  --color-warm-gray: #6B6356;
+  /* Color Palette - Client's Coolors Palette */
+  --color-caramel: #D59D62;        /* Warm tan/caramel - primary accent */
+  --color-caramel-dark: #B8834D;   /* Darker caramel for hover */
+  --color-lavender: #AEBDFF;       /* Soft lavender blue - secondary accent */
+  --color-lavender-dark: #8FA3F0;  /* Darker lavender for hover */
+  --color-brown: #7A5A51;          /* Warm brown - muted text */
+  --color-burgundy: #3C1518;       /* Dark burgundy - deep accents */
+  --color-burgundy-deep: #280003;  /* Near-black burgundy */
   --color-white: #FFFFFF;
+  --color-black: #1A1A1A;
+  --color-cream: #FAF8F5;          /* Off-white background */
+  --color-sand: #F0E8DE;           /* Light sand for cards */
+  --color-sand-light: #F5F0E8;     /* Lighter sand for disabled states */
   
   /* Semantic Colors */
-  --color-primary: var(--color-terracotta);
-  --color-primary-hover: var(--color-terracotta-dark);
-  --color-secondary: var(--color-forest);
-  --color-secondary-hover: var(--color-forest-light);
+  --color-primary: var(--color-caramel);
+  --color-primary-hover: var(--color-caramel-dark);
+  --color-primary-light: rgba(213, 157, 98, 0.2);
+  --color-secondary: var(--color-burgundy);
+  --color-secondary-hover: var(--color-burgundy-deep);
+  --color-accent: var(--color-lavender);
+  --color-accent-hover: var(--color-lavender-dark);
   --color-background: var(--color-cream);
   --color-surface: var(--color-white);
-  --color-text: var(--color-charcoal);
-  --color-text-muted: var(--color-warm-gray);
+  --color-text: var(--color-black);
+  --color-text-muted: var(--color-brown);
   --color-error: #dc2626;
   --color-error-bg: #fef2f2;
+  --color-error-light: rgba(220, 38, 38, 0.2);
   
   /* Typography */
   --font-display: 'Lora', Georgia, serif;
