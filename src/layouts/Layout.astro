@@ -2,7 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-import { getSiteSettings } from '../lib/sanity';
+import { getSiteSettings, urlFor, hasValidAsset } from '../lib/sanity';
 
 interface Props {
   title: string;
@@ -14,10 +14,15 @@ interface Props {
 
 const settings = await getSiteSettings();
 
+// Use hero image from Sanity as default OG image (1200x630 is optimal for social sharing)
+const defaultOgImage = hasValidAsset(settings?.heroImage)
+  ? urlFor(settings.heroImage).width(1200).height(630).fit('crop').quality(80).url()
+  : '/favicon.svg';
+
 const { 
   title, 
   description = "Professional dog sitting services with love, care, and lots of belly rubs!",
-  ogImage = "/favicon.svg",
+  ogImage = defaultOgImage,
   noindex = false
 } = Astro.props;
 
@@ -27,7 +32,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 // Don't append site name on homepage (detected by URL path, not title content)
 const isHomepage = Astro.url.pathname === '/';
 const fullTitle = isHomepage ? title : `${title} | ${siteName}`;
-const ogImageURL = new URL(ogImage, Astro.site);
+// For Sanity CDN URLs, use as-is; for local paths, construct full URL
+const ogImageURL = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.site).toString();
 ---
 
 <!doctype html>
