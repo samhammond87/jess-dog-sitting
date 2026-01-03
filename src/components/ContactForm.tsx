@@ -152,9 +152,11 @@ function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           disabled={formState === 'submitting'}
+          aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? 'name-error' : undefined}
         />
         {errors.name && (
-          <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.name}</span>
+          <span id="name-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.name}</span>
         )}
       </div>
 
@@ -163,7 +165,7 @@ function ContactForm() {
           How can we reach you? <span style={{ color: 'var(--color-primary)' }}>*</span>
         </legend>
         {errors.contact && (
-          <p style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>
+          <p id="contact-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-sm)' }}>
             {errors.contact}
           </p>
         )}
@@ -181,9 +183,11 @@ function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             disabled={formState === 'submitting'}
+            aria-invalid={!!errors.email || !!errors.contact}
+            aria-describedby={errors.email ? 'email-error' : errors.contact ? 'contact-error' : undefined}
           />
           {errors.email && (
-            <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.email}</span>
+            <span id="email-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.email}</span>
           )}
         </div>
 
@@ -200,9 +204,11 @@ function ContactForm() {
             value={formData.phone}
             onChange={handleChange}
             disabled={formState === 'submitting'}
+            aria-invalid={!!errors.phone || !!errors.contact}
+            aria-describedby={errors.phone ? 'phone-error' : errors.contact ? 'contact-error' : undefined}
           />
           {errors.phone && (
-            <span style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.phone}</span>
+            <span id="phone-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.phone}</span>
           )}
         </div>
       </fieldset>

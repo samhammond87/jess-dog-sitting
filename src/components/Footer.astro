@@ -43,9 +43,9 @@ const facebook = settings?.socialLinks?.facebook || 'https://facebook.com';
           <a href={`tel:${phone.replace(/\D/g, '')}`} class="footer-link">
             📞 {phone}
           </a>
-          <span class="footer-link">
-            📍 {location}
-          </span>
+<span class="footer-info">
+                            📍 {location}
+                          </span>
         </div>
       </div>
     </div>
@@ -159,9 +159,13 @@ const facebook = settings?.socialLinks?.facebook || 'https://facebook.com';
     margin-bottom: var(--space-sm);
   }
 
-  .footer-link {
+  .footer-link,
+  .footer-info {
     color: rgba(255, 255, 255, 0.8);
     font-size: var(--text-sm);
+  }
+
+  .footer-link {
     transition: color var(--transition-fast);
   }
 

@@ -22,11 +22,12 @@ const navLinks = [
       id="menu-toggle"
       aria-label="Toggle navigation menu"
       aria-expanded="false"
+      aria-controls="nav"
     >
       <span class="hamburger"></span>
     </button>
 
-    <nav class="nav" id="nav">
+    <nav class="nav" id="nav" aria-hidden="true">
       {navLinks.map(link => (
         <a
           href={link.href}
@@ -50,18 +51,40 @@ const navLinks = [
   const nav = document.getElementById('nav');
   const header = document.getElementById('header');
   
+  function closeMenu() {
+    nav?.classList.remove('open');
+    nav?.setAttribute('aria-hidden', 'true');
+    menuToggle?.classList.remove('active');
+    menuToggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  function openMenu() {
+    nav?.classList.add('open');
+    nav?.setAttribute('aria-hidden', 'false');
+    menuToggle?.classList.add('active');
+    menuToggle?.setAttribute('aria-expanded', 'true');
+  }
+
   menuToggle?.addEventListener('click', () => {
-    const isOpen = nav?.classList.toggle('open');
-    menuToggle.classList.toggle('active');
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    const isOpen = nav?.classList.contains('open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
+  // Close menu on link click
   nav?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('open');
-      menuToggle?.classList.remove('active');
-      menuToggle?.setAttribute('aria-expanded', 'false');
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav?.classList.contains('open')) {
+      closeMenu();
+      menuToggle?.focus();
+    }
   });
 
   const handleScroll = () => {

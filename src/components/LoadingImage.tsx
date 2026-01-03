@@ -73,6 +73,10 @@ function LoadingImage({
           ref={imgRef}
           src={src}
           alt={alt}
+          width={size}
+          height={size}
+          loading="lazy"
+          decoding="async"
           style={imageStyle}
           onLoad={() => setLoaded(true)}
         />
