@@ -31,5 +31,15 @@ const { title, subtitle } = Astro.props;
     font-size: var(--text-xl);
     color: var(--color-text-muted);
   }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding-top: 8rem;
+    }
+
+    h1 {
+      font-size: var(--text-3xl);
+    }
+  }
 </style>
 

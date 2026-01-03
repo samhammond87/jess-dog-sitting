@@ -39,8 +39,8 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
         <nav class="hero-nav">
           <a href="/gallery" class="nav-btn">Gallery</a>
           <a href="/pricing" class="nav-btn">Pricing</a>
-          <a href="/bookings" class="nav-btn nav-btn-primary">Bookings</a>
           <a href="/contact" class="nav-btn">Contact</a>
+          <a href="/bookings" class="nav-btn nav-btn-primary">Bookings</a>
         </nav>
       </div>
     </section>
@@ -168,6 +168,11 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
   }
 
   @media (max-width: 768px) {
+    .hero {
+      align-items: flex-start;
+      padding-top: calc(var(--header-height) + 1.5rem);
+    }
+
     .hero-title {
       font-size: var(--text-3xl);
     }
@@ -178,8 +183,10 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
 
     .hero-nav {
       flex-direction: column;
+      align-items: center;
       width: 100%;
       max-width: 280px;
+      margin: 0 auto;
     }
 
     .nav-btn {
