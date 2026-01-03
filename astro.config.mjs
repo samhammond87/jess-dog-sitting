@@ -7,5 +7,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jess-dog-sitting.netlify.app',
   trailingSlash: 'never',
-  integrations: [react(), sitemap()]
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => !page.includes('/404')
+    })
+  ]
 });

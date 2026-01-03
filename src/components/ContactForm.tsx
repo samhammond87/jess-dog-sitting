@@ -184,7 +184,7 @@ function ContactForm() {
             onChange={handleChange}
             disabled={formState === 'submitting'}
             aria-invalid={!!errors.email || !!errors.contact}
-            aria-describedby={errors.email ? 'email-error' : errors.contact ? 'contact-error' : undefined}
+            aria-describedby={[errors.email && 'email-error', errors.contact && 'contact-error'].filter(Boolean).join(' ') || undefined}
           />
           {errors.email && (
             <span id="email-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.email}</span>
@@ -205,7 +205,7 @@ function ContactForm() {
             onChange={handleChange}
             disabled={formState === 'submitting'}
             aria-invalid={!!errors.phone || !!errors.contact}
-            aria-describedby={errors.phone ? 'phone-error' : errors.contact ? 'contact-error' : undefined}
+            aria-describedby={[errors.phone && 'phone-error', errors.contact && 'contact-error'].filter(Boolean).join(' ') || undefined}
           />
           {errors.phone && (
             <span id="phone-error" role="alert" style={{ color: 'var(--color-error)', fontSize: 'var(--text-sm)' }}>{errors.phone}</span>

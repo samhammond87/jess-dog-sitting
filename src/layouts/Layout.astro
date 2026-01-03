@@ -8,6 +8,8 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  /** Set to true for pages that should not be indexed (e.g., 404) */
+  noindex?: boolean;
 }
 
 const settings = await getSiteSettings();
@@ -15,15 +17,16 @@ const settings = await getSiteSettings();
 const { 
   title, 
   description = "Professional dog sitting services with love, care, and lots of belly rubs!",
-  ogImage = "/favicon.svg"
+  ogImage = "/favicon.svg",
+  noindex = false
 } = Astro.props;
 
 const siteName = settings?.siteName ?? 'Jess Dog Sitting';
 const location = settings?.location ?? '';
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-// If title already contains location info (homepage), don't append site name
-const isHomepage = title.toLowerCase().includes('dog sitting in') || title === siteName;
+// Don't append site name on homepage (detected by URL path, not title content)
+const isHomepage = Astro.url.pathname === '/';
 const fullTitle = isHomepage ? title : `${title} | ${siteName}`;
 const ogImageURL = new URL(ogImage, Astro.site);
 ---
@@ -34,6 +37,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />

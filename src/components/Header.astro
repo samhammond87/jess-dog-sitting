@@ -27,7 +27,7 @@ const navLinks = [
       <span class="hamburger"></span>
     </button>
 
-    <nav class="nav" id="nav" aria-hidden="true">
+    <nav class="nav" id="nav">
       {navLinks.map(link => (
         <a
           href={link.href}
@@ -50,12 +50,16 @@ const navLinks = [
   const menuToggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('nav');
   const header = document.getElementById('header');
+  const mobileBreakpoint = window.matchMedia('(max-width: 768px)');
   
   function closeMenu() {
     nav?.classList.remove('open');
-    nav?.setAttribute('aria-hidden', 'true');
     menuToggle?.classList.remove('active');
     menuToggle?.setAttribute('aria-expanded', 'false');
+    // Only hide from screen readers on mobile when closed
+    if (mobileBreakpoint.matches) {
+      nav?.setAttribute('aria-hidden', 'true');
+    }
   }
 
   function openMenu() {
@@ -64,6 +68,26 @@ const navLinks = [
     menuToggle?.classList.add('active');
     menuToggle?.setAttribute('aria-expanded', 'true');
   }
+
+  // Handle viewport changes (mobile <-> desktop)
+  function handleViewportChange(e: MediaQueryListEvent | MediaQueryList) {
+    if (e.matches) {
+      // Switched to mobile: hide nav from screen readers if menu is closed
+      if (!nav?.classList.contains('open')) {
+        nav?.setAttribute('aria-hidden', 'true');
+      }
+    } else {
+      // Switched to desktop: always accessible, remove mobile state
+      nav?.removeAttribute('aria-hidden');
+      nav?.classList.remove('open');
+      menuToggle?.classList.remove('active');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  // Initialize based on current viewport
+  handleViewportChange(mobileBreakpoint);
+  mobileBreakpoint.addEventListener('change', handleViewportChange);
 
   menuToggle?.addEventListener('click', () => {
     const isOpen = nav?.classList.contains('open');
