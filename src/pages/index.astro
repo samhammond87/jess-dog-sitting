@@ -37,22 +37,10 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
         <p class="hero-blurb">{heroBlurb}</p>
         
         <nav class="hero-nav">
-          <a href="/gallery" class="nav-btn">
-            <span class="nav-icon">📸</span>
-            <span class="nav-label">Gallery</span>
-          </a>
-          <a href="/pricing" class="nav-btn">
-            <span class="nav-icon">💰</span>
-            <span class="nav-label">Pricing</span>
-          </a>
-          <a href="/bookings" class="nav-btn nav-btn-primary">
-            <span class="nav-icon">📅</span>
-            <span class="nav-label">Bookings</span>
-          </a>
-          <a href="/contact" class="nav-btn">
-            <span class="nav-icon">📧</span>
-            <span class="nav-label">Contact</span>
-          </a>
+          <a href="/gallery" class="nav-btn">Gallery</a>
+          <a href="/pricing" class="nav-btn">Pricing</a>
+          <a href="/bookings" class="nav-btn nav-btn-primary">Bookings</a>
+          <a href="/contact" class="nav-btn">Contact</a>
         </nav>
       </div>
     </section>
@@ -132,52 +120,39 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
   }
 
   .nav-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-lg) var(--space-xl);
+    padding: var(--space-md) var(--space-xl);
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-full);
     color: var(--color-white);
-    min-width: 100px;
+    font-weight: 600;
+    font-size: var(--text-base);
     transition: all var(--transition-base);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
   .nav-btn:hover {
     background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   }
 
   .nav-btn-primary {
-    background: rgba(255, 255, 255, 0.15);
     border: 2px solid var(--color-primary);
-    box-shadow: 0 0 20px rgba(213, 157, 98, 0.3), inset 0 0 20px rgba(213, 157, 98, 0.1);
+    box-shadow: 0 0 20px rgba(213, 157, 98, 0.3);
   }
 
   .nav-btn-primary:hover {
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 30px rgba(213, 157, 98, 0.5), inset 0 0 25px rgba(213, 157, 98, 0.15);
-  }
-
-  .nav-icon {
-    font-size: 1.75rem;
-  }
-
-  .nav-label {
-    font-weight: 600;
-    font-size: var(--text-sm);
+    box-shadow: 0 0 30px rgba(213, 157, 98, 0.5);
   }
 
   /* Fallback when no hero image (explicit class for browser compatibility) */
   .hero--no-image {
     background: linear-gradient(
       135deg,
-      var(--color-caramel) 0%,
-      var(--color-caramel-dark) 100%
+      var(--color-burgundy) 0%,
+      var(--color-burgundy-deep) 100%
     );
   }
 
@@ -202,15 +177,14 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
     }
 
     .hero-nav {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-md);
+      flex-direction: column;
       width: 100%;
-      max-width: 320px;
+      max-width: 280px;
     }
 
     .nav-btn {
-      padding: var(--space-md);
+      width: 100%;
+      text-align: center;
     }
   }
 </style>

@@ -37,7 +37,7 @@ const bookingSteps = settings?.bookingProcess ?? [];
       </section>
     )}
 
-    <section class="section questionnaire-section">
+    <section class="section questionnaire-section paw-trail">
       <div class="container">
         <div class="form-container">
           <div class="form-header">
@@ -57,12 +57,12 @@ const bookingSteps = settings?.bookingProcess ?? [];
 
 <style>
   .how-to-book {
-    background-color: var(--color-lavender);
-    color: var(--color-black);
+    background-color: var(--color-burgundy);
+    color: var(--color-white);
   }
 
   .how-to-book .section-title {
-    color: var(--color-black);
+    color: var(--color-white);
   }
 
   .steps-grid {
@@ -74,11 +74,10 @@ const bookingSteps = settings?.bookingProcess ?? [];
   .step-card {
     text-align: center;
     padding: var(--space-xl);
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
     animation: fadeInUp 0.6s ease forwards;
     opacity: 0;
-    box-shadow: var(--shadow-sm);
   }
 
   .step-number {
@@ -88,7 +87,7 @@ const bookingSteps = settings?.bookingProcess ?? [];
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: var(--color-burgundy);
+    background-color: var(--color-caramel);
     color: var(--color-white);
     font-size: var(--text-xl);
     font-weight: bold;
@@ -96,13 +95,13 @@ const bookingSteps = settings?.bookingProcess ?? [];
   }
 
   .step-card h3 {
-    color: var(--color-black);
+    color: var(--color-white);
     margin-bottom: var(--space-sm);
   }
 
   .step-card p {
     font-size: var(--text-sm);
-    color: var(--color-brown);
+    opacity: 0.9;
   }
 
   .questionnaire-section {

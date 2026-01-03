@@ -218,3 +218,43 @@ h1, h2, h3, h4, h5, h6 {
   border: 0;
 }
 
+/* Paw trail background - diagonal watermark effect */
+.paw-trail {
+  position: relative;
+  overflow: hidden;
+}
+
+.paw-trail::before,
+.paw-trail::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.paw-trail::before {
+  content: '🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾';
+  top: 35%;
+  font-size: 3rem;
+  letter-spacing: 3rem;
+  opacity: 0.12;
+  transform: rotate(-8deg) translateX(-10%);
+}
+
+.paw-trail::after {
+  content: '🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾';
+  top: 65%;
+  font-size: 2.5rem;
+  letter-spacing: 3.5rem;
+  opacity: 0.08;
+  transform: rotate(-8deg) translateX(5%);
+}
+
+.paw-trail > * {
+  position: relative;
+  z-index: 1;
+}
+
