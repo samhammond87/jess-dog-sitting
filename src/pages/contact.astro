@@ -39,6 +39,9 @@ const businessPhone = settings?.phone || '';
                   <a href={`tel:${businessPhone.replace(/\D/g, '')}`} class="contact-link">
                     {businessPhone}
                   </a>
+                  <a href={`sms:${businessPhone.replace(/\D/g, '')}`} class="text-option">
+                    or send a text 💬
+                  </a>
                 </div>
               </div>
             )}
@@ -116,6 +119,27 @@ const businessPhone = settings?.phone || '';
   .contact-link:hover {
     color: var(--color-primary-hover);
     text-decoration: underline;
+  }
+
+  /* Hidden on desktop, shown on touch devices (mobile/tablet) */
+  .text-option {
+    display: none;
+  }
+
+  @media (pointer: coarse) {
+    .text-option {
+      display: block;
+      margin-top: var(--space-sm);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color var(--transition-fast);
+    }
+
+    .text-option:hover {
+      color: var(--color-primary);
+    }
   }
 
   @media (max-width: 600px) {
