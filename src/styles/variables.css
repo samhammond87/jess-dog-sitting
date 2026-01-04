@@ -13,7 +13,7 @@
   /* ============================================
    * CORE PALETTE - Change these 4 lines only
    * ============================================ */
-  --color-primary: #4F8A8B;   /* Muted Teal - headers, highlights */
+  --color-primary: #3D7172;   /* Deeper Teal - headers, highlights (improved contrast) */
   --color-secondary: #FFF8EE; /* Cream - background */
   --color-accent: #E1B44C;    /* Mustard - buttons, CTAs */
   --color-neutral: #1F2A44;   /* Dark Navy - text, dividers, cards */
@@ -21,12 +21,13 @@
   /* ============================================
    * DERIVED COLORS - Auto-generated from core
    * ============================================ */
-  --color-primary-hover: #3D7172;
-  --color-primary-light: rgba(79, 138, 139, 0.28);
+  --color-primary-hover: #2F5F60;
+  --color-primary-soft: #4F8A8B;  /* Original teal for backgrounds/badges */
+  --color-primary-light: rgba(61, 113, 114, 0.28);
   --color-accent-hover: #C99B38;
   --color-accent-light: rgba(225, 180, 76, 0.2);
   --color-neutral-light: #4A5568;
-  --color-neutral-lighter: rgba(31, 42, 68, 0.6);
+  --color-neutral-lighter: rgba(31, 42, 68, 0.72);
   
   /* Surface & utility colors */
   --color-white: #FFFFFF;

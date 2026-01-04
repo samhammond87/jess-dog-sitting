@@ -87,10 +87,13 @@ function getFieldName(q: { _id: string; questionText: string }): string {
   .how-to-book {
     background-color: var(--color-neutral);
     color: var(--color-white);
+    margin-top: var(--space-2xl);
+    padding: var(--space-2xl) 0;
   }
 
   .how-to-book .section-title {
     color: var(--color-white);
+    margin-bottom: var(--space-lg);
   }
 
   .steps-grid {
@@ -102,7 +105,8 @@ function getFieldName(q: { _id: string; questionText: string }): string {
   .step-card {
     text-align: center;
     padding: var(--space-xl);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 248, 238, 0.1);
+    border: 1px solid rgba(255, 248, 238, 0.15);
     border-radius: var(--radius-lg);
     animation: fadeInUp 0.6s ease forwards;
     opacity: 0;
@@ -116,20 +120,20 @@ function getFieldName(q: { _id: string; questionText: string }): string {
     height: 50px;
     border-radius: 50%;
     background-color: var(--color-accent);
-    color: var(--color-white);
+    color: var(--color-neutral);
     font-size: var(--text-xl);
     font-weight: bold;
     margin-bottom: var(--space-md);
   }
 
   .step-card h3 {
-    color: var(--color-white);
+    color: var(--color-secondary);
     margin-bottom: var(--space-sm);
   }
 
   .step-card p {
     font-size: var(--text-sm);
-    opacity: 0.9;
+    color: rgba(255, 248, 238, 0.75);
   }
 
   .questionnaire-section {
@@ -172,6 +176,11 @@ function getFieldName(q: { _id: string; questionText: string }): string {
   }
 
   @media (max-width: 768px) {
+    .questionnaire-section {
+      padding-top: var(--space-3xl);
+      border-top: 4px solid var(--color-primary-soft);
+    }
+
     .form-container {
       padding: var(--space-lg);
     }

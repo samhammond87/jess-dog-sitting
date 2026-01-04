@@ -37,10 +37,8 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
         <p class="hero-blurb">{heroBlurb}</p>
         
         <nav class="hero-nav">
-          <a href="/gallery" class="nav-btn">Gallery</a>
-          <a href="/pricing" class="nav-btn">Pricing</a>
-          <a href="/contact" class="nav-btn">Contact</a>
-          <a href="/bookings" class="nav-btn nav-btn-primary">Bookings</a>
+          <a href="/bookings" class="nav-btn nav-btn-primary">Booking Enquiry</a>
+          <a href="/contact" class="nav-btn nav-btn-secondary">Contact Jess</a>
         </nav>
       </div>
     </section>
@@ -121,31 +119,40 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
 
   .nav-btn {
     padding: var(--space-md) var(--space-xl);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
     border-radius: var(--radius-full);
-    color: var(--color-white);
     font-weight: 600;
     font-size: var(--text-base);
     transition: all var(--transition-base);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .nav-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    text-align: center;
   }
 
   .nav-btn-primary {
+    background: var(--color-accent);
+    color: var(--color-neutral);
     border: 2px solid var(--color-accent);
-    box-shadow: 0 0 20px var(--color-accent-light);
+    box-shadow: 0 4px 20px rgba(225, 180, 76, 0.3);
   }
 
   .nav-btn-primary:hover {
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 30px var(--color-accent-light);
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(225, 180, 76, 0.4);
   }
+
+  .nav-btn-secondary {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    color: var(--color-white);
+    border: 1px solid var(--color-accent);
+  }
+
+  .nav-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: var(--color-accent-hover);
+    transform: translateY(-2px);
+  }
+
 
   /* Fallback when no hero image (explicit class for browser compatibility) */
   .hero--no-image {
@@ -179,6 +186,7 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
 
     .hero-blurb {
       font-size: var(--text-lg);
+      margin-bottom: var(--space-3xl);
     }
 
     .hero-nav {
@@ -187,11 +195,11 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
       width: 100%;
       max-width: 280px;
       margin: 0 auto;
+      gap: var(--space-md);
     }
 
     .nav-btn {
       width: 100%;
-      text-align: center;
     }
   }
 </style>

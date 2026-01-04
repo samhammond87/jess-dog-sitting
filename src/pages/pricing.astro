@@ -44,7 +44,7 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
     <CtaSection
       title="Ready to Book?"
       subtitle="Fill out the questionnaire and I'll get back to you!"
-      buttonText="Book Now"
+      buttonText="Submit Enquiry"
       buttonHref="/bookings"
     />
 
@@ -94,25 +94,24 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
     flex: 1 1 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
     max-width: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
     min-width: 200px;
-    background: var(--color-neutral);
+    background: var(--color-secondary);
+    border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
     text-align: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 24px rgba(31, 42, 68, 0.08);
     transition: all var(--transition-base);
-    color: var(--color-secondary);
   }
 
   .pricing-card h3 {
-    color: var(--color-secondary);
+    color: var(--color-text);
     margin-bottom: var(--space-sm);
   }
 
   .pricing-card p {
-    color: #FFF8EE !important;
+    color: var(--color-text-muted);
     font-size: var(--text-sm);
     line-height: 1.5;
-    opacity: 0.9;
   }
 
   /* If count % 4 === 1 (would leave 1 orphan), use 3 columns instead */
@@ -136,6 +135,10 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
   }
 
   @media (max-width: 640px) {
+    .pricing-grid {
+      gap: var(--space-2xl);
+    }
+
     .pricing-card {
       flex: 1 1 100%;
       max-width: 100%;
@@ -144,7 +147,8 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
 
   .pricing-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 12px 32px rgba(31, 42, 68, 0.12);
+    border-color: var(--color-primary-soft);
   }
 
   .pricing-icon {
@@ -156,7 +160,7 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
   .pricing-card h3 {
     font-family: var(--font-display);
     font-size: var(--text-xl);
-    margin-bottom: var(--space-sm);
+    color: var(--color-text);
   }
 
   .pricing-card p {
