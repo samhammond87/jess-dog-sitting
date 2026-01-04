@@ -145,10 +145,20 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
     }
   }
 
-  .pricing-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(31, 42, 68, 0.12);
-    border-color: var(--color-primary-soft);
+  /* Only apply hover effects on devices with fine pointer (mouse) */
+  @media (hover: hover) and (pointer: fine) {
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(31, 42, 68, 0.12);
+      border-color: var(--color-primary-soft);
+    }
+  }
+
+  /* Prevent tap highlight on touch devices */
+  @media (pointer: coarse) {
+    .pricing-card {
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 
   .pricing-icon {

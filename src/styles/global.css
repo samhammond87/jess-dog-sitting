@@ -167,16 +167,18 @@ h3, h4, h5, h6 {
   transition: all var(--transition-base);
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
+/* Only apply hover effects on devices with fine pointer (mouse) */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
 }
 
-/* Prevent accidental focus highlight on mobile when scrolling */
+/* Prevent tap highlight on touch devices */
 @media (pointer: coarse) {
   .card {
     -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
   }
 }
 
