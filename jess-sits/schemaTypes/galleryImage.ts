@@ -18,7 +18,8 @@ export default defineType({
       name: 'caption',
       title: 'Caption',
       type: 'string',
-      description: 'Optional caption for the image',
+      description: 'A short, fun caption for this photo (e.g. "Beach day adventures!")',
+      validation: (Rule) => Rule.required().max(60).error('Caption is required (max 60 characters)'),
     }),
     defineField({
       name: 'order',

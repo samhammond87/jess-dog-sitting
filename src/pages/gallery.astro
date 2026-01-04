@@ -65,26 +65,32 @@ const validImages = images.filter((img) => hasValidAsset(img.image));
   .gallery-item {
     animation: scaleIn 0.4s ease forwards;
     opacity: 0;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    border: 1px solid var(--color-primary-light);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-accent);
   }
 
   .gallery-image-wrapper {
     aspect-ratio: 1;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-  }
-
-  .gallery-item:hover .gallery-image-wrapper {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-xl);
   }
 
   .gallery-caption {
     margin-top: var(--space-md);
     text-align: center;
     font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    color: var(--color-neutral);
+    font-weight: 500;
   }
 
   .empty-gallery {

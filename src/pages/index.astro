@@ -138,21 +138,21 @@ const homeDescription = `${siteName} - ${tagline}. Professional dog sitting serv
   }
 
   .nav-btn-primary {
-    border: 2px solid var(--color-primary);
-    box-shadow: 0 0 20px rgba(213, 157, 98, 0.3);
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 20px var(--color-accent-light);
   }
 
   .nav-btn-primary:hover {
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 30px rgba(213, 157, 98, 0.5);
+    box-shadow: 0 0 30px var(--color-accent-light);
   }
 
   /* Fallback when no hero image (explicit class for browser compatibility) */
   .hero--no-image {
     background: linear-gradient(
       135deg,
-      var(--color-burgundy) 0%,
-      var(--color-burgundy-deep) 100%
+      var(--color-primary) 0%,
+      var(--color-neutral) 100%
     );
   }
 

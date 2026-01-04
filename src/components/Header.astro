@@ -122,14 +122,13 @@ const navLinks = [
     left: 0;
     right: 0;
     height: var(--header-height);
-    background-color: rgba(253, 246, 227, 0.9);
-    backdrop-filter: blur(10px);
+    background-color: var(--color-neutral);
     z-index: 1000;
     transition: all var(--transition-base);
   }
 
   .header.scrolled {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: var(--color-neutral);
     box-shadow: var(--shadow-md);
   }
 
@@ -147,7 +146,7 @@ const navLinks = [
     font-family: var(--font-display);
     font-size: var(--text-xl);
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--color-secondary);
     transition: transform var(--transition-fast);
   }
 
@@ -166,7 +165,7 @@ const navLinks = [
   }
 
   .logo-text {
-    color: var(--color-primary);
+    color: var(--color-secondary);
   }
 
   .nav {
@@ -178,7 +177,7 @@ const navLinks = [
   .nav-link {
     position: relative;
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--color-secondary);
     padding: var(--space-sm) var(--space-md);
     transition: color var(--transition-fast);
   }
@@ -191,13 +190,13 @@ const navLinks = [
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background-color: var(--color-primary);
+    background-color: var(--color-accent);
     transition: width var(--transition-base);
   }
 
   .nav-link:hover,
   .nav-link.active {
-    color: var(--color-primary);
+    color: var(--color-accent);
   }
 
   .nav-link:hover::after,
@@ -205,20 +204,22 @@ const navLinks = [
     width: 80%;
   }
 
-  .cta-button {
-    background-color: var(--color-primary);
-    color: var(--color-white) !important;
-    border-radius: var(--radius-full);
-    padding: var(--space-sm) var(--space-xl) !important;
-  }
+    .cta-button {
+      background-color: var(--color-accent);
+      color: var(--color-neutral) !important;
+      border-radius: var(--radius-xl);
+      padding: var(--space-sm) var(--space-xl) !important;
+      font-weight: 600;
+    }
 
   .cta-button::after {
     display: none;
   }
 
   .cta-button:hover {
-    background-color: var(--color-primary-hover);
+    background-color: var(--color-accent-hover);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(225, 180, 76, 0.3);
   }
 
   .menu-toggle {
@@ -231,7 +232,7 @@ const navLinks = [
   }
 
   .menu-toggle:hover {
-    background-color: var(--color-sand);
+    background-color: rgba(255, 248, 238, 0.1);
   }
 
   .hamburger,
@@ -240,7 +241,7 @@ const navLinks = [
     display: block;
     width: 24px;
     height: 2px;
-    background-color: var(--color-text);
+    background-color: var(--color-secondary);
     border-radius: 2px;
     transition: all var(--transition-base);
   }
@@ -291,7 +292,7 @@ const navLinks = [
       left: 0;
       right: 0;
       flex-direction: column;
-      background-color: var(--color-white);
+      background-color: var(--color-neutral);
       padding: var(--space-xl);
       gap: var(--space-md);
       transform: translateY(-100%);
@@ -315,7 +316,7 @@ const navLinks = [
     }
 
     .nav-link:hover {
-      background-color: var(--color-cream);
+      background-color: rgba(255, 248, 238, 0.1);
     }
 
     .nav-link::after {

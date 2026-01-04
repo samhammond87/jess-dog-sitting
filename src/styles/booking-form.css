@@ -22,7 +22,7 @@
 .booking-form__contact-section {
   margin-bottom: var(--space-lg);
   padding: var(--space-lg);
-  background: var(--color-cream);
+  background: var(--color-secondary);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-xl);
 }
@@ -71,7 +71,7 @@
   padding: var(--space-md);
   font-size: var(--text-base);
   font-family: inherit;
-  border: 2px solid var(--color-sand);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   transition: border-color 150ms ease, box-shadow 150ms ease;
@@ -82,7 +82,7 @@
 .booking-form__select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(194, 120, 93, 0.15);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
 }
 
 .booking-form__input:disabled,

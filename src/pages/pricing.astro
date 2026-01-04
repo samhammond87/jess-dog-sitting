@@ -27,13 +27,8 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
       subtitle="Transparent pricing with no hidden fees"
     />
 
-    <section class="section pricing-section">
+    <section class="section pricing-section paw-trail">
       <div class="container">
-        <p class="pricing-intro">
-          Pricing varies based on your dog's needs and the type of care required. 
-          Get in touch to discuss rates for:
-        </p>
-        
         <div class="pricing-grid">
           {services.map((service) => (
             <div class="pricing-card">
@@ -54,7 +49,7 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
     />
 
     {terms.length > 0 && (
-      <section class="section terms-section paw-trail">
+      <section class="section terms-section">
         <div class="container">
           <h2 class="terms-title">Terms & Conditions</h2>
           <div class="terms-grid">
@@ -83,14 +78,6 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
 <style>
   .pricing-section {
     background-color: var(--color-background);
-  }
-
-  .pricing-intro {
-    text-align: center;
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    max-width: 600px;
-    margin: 0 auto var(--space-2xl);
   }
 
   .pricing-grid {
@@ -184,7 +171,7 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
 
   .terms-card {
     padding: var(--space-xl);
-    background: var(--color-cream);
+    background: var(--color-secondary);
     border-radius: var(--radius-lg);
   }
 

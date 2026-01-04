@@ -48,7 +48,7 @@ function LoadingImage({
     overflow: 'hidden',
     borderRadius: rounded ? '50%' : 'var(--radius-xl)',
     boxShadow: 'var(--shadow-xl)',
-    background: 'var(--color-cream)',
+    background: 'var(--color-secondary)',
     width: '100%',
     maxWidth: imgWidth, 
     aspectRatio: aspectRatio ?? (imgWidth && imgHeight ? `${imgWidth}/${imgHeight}` : '1/1')

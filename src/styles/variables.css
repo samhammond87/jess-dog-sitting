@@ -1,35 +1,43 @@
 /* 
  * Jess Dog Sitting - Design System
- * Warm earthy tones with lavender accent
+ * Playful but Professional palette
+ * 
+ * To change the palette, update these 4 colors:
+ * --color-primary: headers, highlights, brand color
+ * --color-secondary: background
+ * --color-accent: buttons, calls to action
+ * --color-neutral: text, dividers, cards
  */
 
 :root {
-  /* Color Palette - Client's Coolors Palette */
-  --color-caramel: #D59D62;        /* Warm tan/caramel - primary accent */
-  --color-caramel-dark: #B8834D;   /* Darker caramel for hover */
-  --color-lavender: #AEBDFF;       /* Soft lavender blue - secondary accent */
-  --color-lavender-dark: #8FA3F0;  /* Darker lavender for hover */
-  --color-brown: #7A5A51;          /* Warm brown - muted text */
-  --color-burgundy: #3C1518;       /* Dark burgundy - deep accents */
-  --color-burgundy-deep: #280003;  /* Near-black burgundy */
-  --color-white: #FFFFFF;
-  --color-black: #1A1A1A;
-  --color-cream: #FAF8F5;          /* Off-white background */
-  --color-sand: #F0E8DE;           /* Light sand for cards */
-  --color-sand-light: #F5F0E8;     /* Lighter sand for disabled states */
+  /* ============================================
+   * CORE PALETTE - Change these 4 lines only
+   * ============================================ */
+  --color-primary: #4F8A8B;   /* Muted Teal - headers, highlights */
+  --color-secondary: #FFF8EE; /* Cream - background */
+  --color-accent: #E1B44C;    /* Mustard - buttons, CTAs */
+  --color-neutral: #1F2A44;   /* Dark Navy - text, dividers, cards */
   
-  /* Semantic Colors */
-  --color-primary: var(--color-caramel);
-  --color-primary-hover: var(--color-caramel-dark);
-  --color-primary-light: rgba(213, 157, 98, 0.2);
-  --color-secondary: var(--color-burgundy);
-  --color-secondary-hover: var(--color-burgundy-deep);
-  --color-accent: var(--color-lavender);
-  --color-accent-hover: var(--color-lavender-dark);
-  --color-background: var(--color-cream);
+  /* ============================================
+   * DERIVED COLORS - Auto-generated from core
+   * ============================================ */
+  --color-primary-hover: #3D7172;
+  --color-primary-light: rgba(79, 138, 139, 0.28);
+  --color-accent-hover: #C99B38;
+  --color-accent-light: rgba(225, 180, 76, 0.2);
+  --color-neutral-light: #4A5568;
+  --color-neutral-lighter: rgba(31, 42, 68, 0.6);
+  
+  /* Surface & utility colors */
+  --color-white: #FFFFFF;
   --color-surface: var(--color-white);
-  --color-text: var(--color-black);
-  --color-text-muted: var(--color-brown);
+  --color-background: var(--color-secondary);
+  --color-text: var(--color-neutral);
+  --color-text-muted: var(--color-neutral-lighter);
+  --color-border: rgba(31, 42, 68, 0.15);
+  --color-border-strong: rgba(31, 42, 68, 0.25);
+  
+  /* Error states */
   --color-error: #dc2626;
   --color-error-bg: #fef2f2;
   --color-error-light: rgba(220, 38, 38, 0.2);
@@ -78,7 +86,7 @@
   
   /* Layout */
   --container-max: 1200px;
-  --header-height: 80px;
+  --header-height: 64px;
 }
 
 /* Animations */

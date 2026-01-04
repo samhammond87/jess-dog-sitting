@@ -70,8 +70,8 @@ const abn = settings?.abn || '';
 <style>
   .footer {
     position: relative;
-    background-color: var(--color-brown);
-    color: var(--color-white);
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
     padding: var(--space-3xl) 0 var(--space-xl);
     overflow: hidden;
   }
@@ -89,7 +89,8 @@ const abn = settings?.abn || '';
 
   .acknowledgement p {
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-secondary);
+    opacity: 0.85;
     line-height: 1.7;
     font-style: italic;
     text-align: center;
@@ -116,7 +117,7 @@ const abn = settings?.abn || '';
     font-family: var(--font-display);
     font-size: var(--text-xl);
     font-weight: 600;
-    color: var(--color-white);
+    color: var(--color-secondary);
     margin-bottom: var(--space-md);
   }
 
@@ -125,12 +126,13 @@ const abn = settings?.abn || '';
   }
 
   .logo-text {
-    color: var(--color-sand);
+    color: var(--color-secondary);
   }
 
   .tagline {
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-secondary);
+    opacity: 0.85;
     line-height: 1.7;
   }
 
@@ -150,18 +152,20 @@ const abn = settings?.abn || '';
     font-family: var(--font-display);
     font-size: var(--text-lg);
     font-weight: 600;
-    color: var(--color-sand);
+    color: var(--color-secondary);
     margin-bottom: var(--space-sm);
   }
 
   .footer-link {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-secondary);
+    opacity: 0.85;
     font-size: var(--text-sm);
-    transition: color var(--transition-fast);
+    transition: color var(--transition-fast), opacity var(--transition-fast);
   }
 
   .footer-link:hover {
-    color: var(--color-white);
+    color: var(--color-accent);
+    opacity: 1;
   }
 
   .footer-bottom {
@@ -171,13 +175,15 @@ const abn = settings?.abn || '';
 
   .copyright p {
     font-size: var(--text-sm);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-secondary);
+    opacity: 0.7;
   }
 
   .abn {
     margin-top: var(--space-xs);
     font-size: var(--text-xs);
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-secondary);
+    opacity: 0.6;
   }
 
   .paw-prints {

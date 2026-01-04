@@ -21,9 +21,8 @@ const { title, subtitle, buttonText, buttonHref } = Astro.props;
 
 <style>
   .cta-section {
-    padding: var(--space-4xl) 0;
-
-    background: linear-gradient(135deg, var(--color-caramel), var(--color-caramel-dark));
+    padding: var(--space-3xl) 0;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
     text-align: center;
   }
 
@@ -45,12 +44,13 @@ const { title, subtitle, buttonText, buttonHref } = Astro.props;
   }
 
   .btn-primary {
-    background-color: var(--color-white);
-    color: var(--color-primary);
+    background-color: var(--color-accent);
+    color: var(--color-neutral);
   }
 
   .btn-primary:hover {
-    background-color: var(--color-cream);
+    background-color: var(--color-accent-hover);
+    box-shadow: 0 4px 12px rgba(225, 180, 76, 0.4);
   }
 </style>
 

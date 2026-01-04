@@ -17,8 +17,8 @@ const { title, subtitle } = Astro.props;
 
 <style>
   .hero {
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-sand) 100%);
-    padding: var(--space-4xl) 0;
+    background: transparent;
+    padding: var(--space-3xl) 0 var(--space-md);
     text-align: center;
   }
 
@@ -29,7 +29,7 @@ const { title, subtitle } = Astro.props;
 
   .subtitle {
     font-size: var(--text-xl);
-    color: var(--color-text-muted);
+    color: var(--color-primary);
   }
 
   @media (max-width: 768px) {
