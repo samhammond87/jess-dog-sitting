@@ -2,12 +2,13 @@
 interface Props {
   title: string;
   subtitle?: string;
+  background?: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, background } = Astro.props;
 ---
 
-<section class="hero">
+<section class="hero" style={background ? `background: ${background}` : undefined}>
   <div class="container">
     <h1>{title}</h1>
     {subtitle && <p class="subtitle">{subtitle}</p>}
