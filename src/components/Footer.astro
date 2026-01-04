@@ -34,7 +34,7 @@ const abn = settings?.abn || '';
           <h4 class="link-group-title">Quick Links</h4>
           <a href="/gallery" class="footer-link">Gallery</a>
           <a href="/pricing" class="footer-link">Pricing & Terms</a>
-          <a href="/bookings" class="footer-link">Bookings</a>
+          <a href="/bookings" class="footer-link">Booking Enquiry</a>
           <a href="/contact" class="footer-link">Contact</a>
         </div>
 
@@ -132,7 +132,7 @@ const abn = settings?.abn || '';
   .tagline {
     font-size: var(--text-sm);
     color: var(--color-secondary);
-    opacity: 0.85;
+    opacity: 0.75;
     line-height: 1.7;
   }
 
@@ -158,7 +158,7 @@ const abn = settings?.abn || '';
 
   .footer-link {
     color: var(--color-secondary);
-    opacity: 0.85;
+    opacity: 0.75;
     font-size: var(--text-sm);
     transition: color var(--transition-fast), opacity var(--transition-fast);
   }
@@ -219,14 +219,37 @@ const abn = settings?.abn || '';
   }
 
   @media (max-width: 768px) {
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    /* Reorder sections on mobile: Get in Touch first */
     .footer-main {
+      order: 1;
       grid-template-columns: 1fr;
       gap: var(--space-2xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .acknowledgement {
+      order: 2;
+      padding-bottom: var(--space-xl);
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .footer-bottom {
+      order: 3;
+      padding-top: var(--space-md);
     }
 
     .footer-brand {
       max-width: none;
       text-align: center;
+      order: 2;
     }
 
     .logo {
@@ -236,6 +259,17 @@ const abn = settings?.abn || '';
     .footer-links {
       grid-template-columns: 1fr;
       text-align: center;
+      gap: var(--space-xl);
+    }
+
+    /* Hide Quick Links on mobile - already in header nav */
+    .link-group:first-child {
+      display: none;
+    }
+
+    /* Get in Touch appears first within footer-links */
+    .link-group:last-child {
+      order: -1;
     }
   }
 </style>

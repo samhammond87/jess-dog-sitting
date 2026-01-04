@@ -73,10 +73,11 @@ const validImages = images.filter((img) => hasValidAsset(img.image));
     transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
   }
 
-  .gallery-item:hover {
+  .gallery-item:hover,
+  .gallery-item:focus-within {
     transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--color-accent);
+    border-color: var(--color-primary-soft);
   }
 
   .gallery-image-wrapper {

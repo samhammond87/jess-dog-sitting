@@ -474,6 +474,10 @@ function BookingForm({ questions }: BookingFormProps) {
         </div>
       )}
 
+      <p className="booking-form__reassurance">
+        Takes about 2 minutes · No payment required
+      </p>
+
       <button
         type="submit"
         className="btn btn-primary booking-form__submit"

@@ -172,6 +172,14 @@
   margin-bottom: var(--space-lg);
 }
 
+/* Reassurance text */
+.booking-form__reassurance {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
 /* Submit button */
 .booking-form__submit {
   width: 100%;

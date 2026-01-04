@@ -39,7 +39,7 @@ const navLinks = [
         href="/bookings"
         class:list={['nav-link', 'cta-button', { active: currentPath === '/bookings' }]}
       >
-        Book Now
+        Booking Enquiry
       </a>
     </nav>
   </div>
@@ -280,6 +280,10 @@ const navLinks = [
   }
 
   @media (max-width: 768px) {
+    .header {
+      height: calc(var(--header-height) + 8px);
+    }
+
     .menu-toggle {
       display: flex;
       align-items: center;
@@ -288,7 +292,7 @@ const navLinks = [
 
     .nav {
       position: fixed;
-      top: var(--header-height);
+      top: calc(var(--header-height) + 8px);
       left: 0;
       right: 0;
       flex-direction: column;
