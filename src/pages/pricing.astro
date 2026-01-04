@@ -94,12 +94,25 @@ const services = serviceTypes.length > 0 ? serviceTypes : defaultServices;
     flex: 1 1 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
     max-width: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
     min-width: 200px;
-    background: var(--color-surface);
+    background: var(--color-neutral);
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
     text-align: center;
     box-shadow: var(--shadow-md);
     transition: all var(--transition-base);
+    color: var(--color-secondary);
+  }
+
+  .pricing-card h3 {
+    color: var(--color-secondary);
+    margin-bottom: var(--space-sm);
+  }
+
+  .pricing-card p {
+    color: #FFF8EE !important;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    opacity: 0.9;
   }
 
   /* If count % 4 === 1 (would leave 1 orphan), use 3 columns instead */

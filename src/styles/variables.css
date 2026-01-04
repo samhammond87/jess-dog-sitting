@@ -1,5 +1,5 @@
 /* 
- * Jess Dog Sitting - Design System
+ * Dog Days Sydney - Design System
  * Playful but Professional palette
  * 
  * To change the palette, update these 4 colors:
@@ -31,7 +31,7 @@
   /* Surface & utility colors */
   --color-white: #FFFFFF;
   --color-surface: var(--color-white);
-  --color-background: var(--color-secondary);
+  --color-background: var(--color-white);
   --color-text: var(--color-neutral);
   --color-text-muted: var(--color-neutral-lighter);
   --color-border: rgba(31, 42, 68, 0.15);

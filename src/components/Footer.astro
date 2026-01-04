@@ -4,9 +4,9 @@ import { getSiteSettings } from '../lib/sanity';
 const settings = await getSiteSettings();
 
 const currentYear = new Date().getFullYear();
-const email = settings?.email || 'hello@jessdogsitting.com';
+const email = settings?.email || 'hello@dogdayssydney.com';
 const phone = settings?.phone || '';
-const siteName = settings?.siteName || 'Jess Dog Sitting';
+const siteName = settings?.siteName || 'Dog Days Sydney';
 const tagline = settings?.tagline || "Your pup's home away from home";
 const acknowledgement = settings?.acknowledgementOfCountry || '';
 const abn = settings?.abn || '';
@@ -70,7 +70,7 @@ const abn = settings?.abn || '';
 <style>
   .footer {
     position: relative;
-    background-color: var(--color-primary);
+    background-color: var(--color-neutral);
     color: var(--color-secondary);
     padding: var(--space-3xl) 0 var(--space-xl);
     overflow: hidden;

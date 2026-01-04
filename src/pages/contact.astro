@@ -1,11 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import CtaSection from '../components/CtaSection.astro';
 import { getSiteSettings } from '../lib/sanity';
 
 const settings = await getSiteSettings();
 
-const businessEmail = settings?.email || 'hello@jessdogsitting.com';
+const businessEmail = settings?.email || 'hello@dogdayssydney.com';
 const businessPhone = settings?.phone || '';
 ---
 
@@ -43,14 +44,16 @@ const businessPhone = settings?.phone || '';
             )}
           </div>
 
-          <div class="booking-prompt">
-            <h2>Ready to book?</h2>
-            <p>Fill out the booking questionnaire and I'll get back to you within 24 hours to arrange a meet & greet.</p>
-            <a href="/bookings" class="btn btn-primary">Submit Enquiry</a>
-          </div>
         </div>
       </div>
     </section>
+
+    <CtaSection
+      title="Ready to Book?"
+      subtitle="Fill out the booking questionnaire and I'll get back to you within 24 hours to arrange a meet & greet."
+      buttonText="Submit Enquiry"
+      buttonHref="/bookings"
+    />
   </div>
 </Layout>
 
@@ -65,11 +68,10 @@ const businessPhone = settings?.phone || '';
   }
 
   .contact-card {
-    background: var(--color-surface);
+    background: var(--color-secondary);
     border-radius: var(--radius-lg);
     padding: var(--space-2xl);
     box-shadow: var(--shadow-md);
-    margin-bottom: var(--space-2xl);
   }
 
   .contact-item {
@@ -106,25 +108,6 @@ const businessPhone = settings?.phone || '';
   .contact-link:hover {
     color: var(--color-primary-hover);
     text-decoration: underline;
-  }
-
-  .booking-prompt {
-    text-align: center;
-    padding: var(--space-2xl);
-    background: var(--color-secondary);
-    border-radius: var(--radius-lg);
-  }
-
-  .booking-prompt h2 {
-    margin-bottom: var(--space-md);
-  }
-
-  .booking-prompt p {
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-xl);
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   @media (max-width: 600px) {
